@@ -1,0 +1,3526 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Monetivo MerchantAPI</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;php&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="php">php</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Szukaj">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/monetivo'>GitHub Monetivo</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        
+          <h1 id="wst-p">Wstęp</h1>
+
+<p>Monetivo API umożliwia integrację własnego oprogramowania merchanta (np. sklepu) z systemem płatności Monetivo.
+Udostępniamy biblioteki, które pozwalają na m.in. wygenerowanie transakcji płatniczej oraz obsługa powiadomień o dokonaniu płatności.
+Bilbioteka umożliwia również wykonanie innych operacji na koncie merchanta systemu Monetivo takich jak:</p>
+
+<ul>
+<li>generowanie listy transakcji,</li>
+<li>zarządzanie rachunkami merchanta,</li>
+<li>zarządzanie kontaktami merchanta.</li>
+</ul>
+
+<p>Możesz korzystać z Monetivo API nie używając bibliotek. W takim przypadku samodzielnie wysyłasz zapytania HTTP do naszego REST API.</p>
+
+          <h1 id="biblioteki">Biblioteki</h1>
+
+<h2 id="php">PHP</h2>
+
+<p>Biblioteka <code class="prettyprint">MerchantAPI PHP</code> umożliwia integrację oprogramowania napisanego w języku PHP z systemem Monetivo.</p>
+
+<aside class="notice">
+Nie musisz wykorzystywać udostępnianych przez nas bibliotek. Jest to jedynie ułatwienie. Możesz samodzielnie wysyłać zapytania HTTP do API.
+</aside>
+
+<h3 id="wymagania-systemowe">Wymagania systemowe</h3>
+
+<ul>
+<li>PHP w wersji 5.5 lub wyższej,</li>
+<li>zainstalowane rozszerzenie PHP cURL</li>
+</ul>
+
+<h3 id="instalacja">Instalacja</h3>
+
+<ol>
+<li>Standardowa - przy użyciu Composer:</li>
+</ol>
+
+<p><code class="prettyprint">composer require monetivoapi/monetivo</code>
+jeśli Composer nie został zainstalowany globalnie:</p>
+
+<p><code class="prettyprint">php composer.phar require monetivoapi/monetivo</code></p>
+
+<ol>
+<li><p>Niestandardowa - przy użyciu archiwum z biblioteką:</p>
+
+<ul>
+<li>rozpakowanie archiwum do dowolnego folderu,</li>
+<li>dołączenie pliku autoload.php z zachowaniem odpowiedniej ścieżki:</li>
+</ul>
+
+<p><code class="prettyprint">require &#39;&lt;ścieżka do pliku autoload.php&gt;&#39;;</code></p></li>
+</ol>
+
+<aside class="notice">
+Zobacz sekcję <a href="https://getcomposer.org/doc/00-intro.md">Getting Started</a> w dokumentacji Composer by poznać szczegóły korzystania z tego narzędzia
+</aside>
+
+          <h1 id="autentykacja">Autentykacja</h1>
+
+<p>Dostęp do API wymaga autentykacji (zalogowania). Do autentykacji potrzebne są:</p>
+
+<ul>
+<li>login (podawany podczas rejestracji),</li>
+<li>hasło (podawane podczas rejestracji),</li>
+<li>token aplikacji (uzyskiwany po rejestracji).</li>
+</ul>
+
+<p>Po pomyślnej autentykacji zostanie zwrócony token, który jest niezbędny do wykonywania zapytań do API. Nasza biblioteka automatycznie dołączy token do każdego zapytania w postaci nagłówka.</p>
+
+<p>Każdy błąd, zarówno po stronie klienta API jak i systemu Monetivo, sygnalizowany jest wyrzuceniem wyjątku <code class="prettyprint">MonetivoException</code>
+Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne informacje.</p>
+
+<aside class="notice">
+Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://getcomposer.org/doc/00-intro.md">Panelu Merchanta</a> w systemie Monetivo
+</aside>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/auth/login</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>login</td>
+<td>-</td>
+<td>tak</td>
+<td>login merchanta</td>
+</tr>
+<tr>
+<td>password</td>
+<td>-</td>
+<td>tak</td>
+<td>hasło merchanta</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>token użytkownika, do wykorzystania w nagłówku X-Auth-Token</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Przykładowa autentykacja:</p>
+</blockquote>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// ładowanie biblioteki za pośrednictwem Composer
+</span><span class="k">require</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">'/vendor/autoload.php'</span><span class="p">;</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="c1">// token aplikacji
+</span>    <span class="nv">$app_token</span> <span class="o">=</span> <span class="s1">'tokenaplikacji'</span><span class="p">;</span>
+
+    <span class="c1">// login merchanta
+</span>    <span class="nv">$login</span> <span class="o">=</span> <span class="s1">'merchant_test_12345'</span><span class="p">;</span>
+
+    <span class="c1">// hasło merchanta
+</span>    <span class="nv">$password</span> <span class="o">=</span> <span class="s1">'very_strong_password'</span><span class="p">;</span>
+
+    <span class="c1">// inicjalizacja biblioteki
+</span>    <span class="nv">$api</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Monetivo\MerchantApi</span><span class="p">(</span><span class="nv">$app_token</span><span class="p">);</span>
+
+    <span class="c1">// autentykacja; jeśli wystąpi błąd to zostanie wyrzucony wyjątek MonetivoException
+</span>    <span class="nv">$token</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">auth</span><span class="p">(</span><span class="nv">$login</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
+
+    <span class="c1">// następne zapytania do API
+</span><span class="p">}</span>
+<span class="k">catch</span><span class="p">(</span><span class="nx">Monetivo\Exceptions\MonetivoException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getHttpCode</span><span class="p">();</span> <span class="c1">// wyświetla kod odpowiedzi serwera;
+</span>  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span> <span class="c1">// zawiera odpowiedź serwera
+</span><span class="p">}</span>
+</code></pre>
+
+<blockquote>
+<p>Zmienna <code class="prettyprint">$token</code> zawiera token autoryzacyjny. Jego ważność to 15 minut.</p>
+
+<p>Pamiętaj, że autentykację wywołujesz jednokrotnie</p>
+</blockquote>
+
+          <h1 id="transakcje">Transakcje</h1>
+
+<h2 id="tworzenie-transakcji">Tworzenie transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+ <span class="nv">$params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+             <span class="s1">'pos_id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+             <span class="s1">'order_data'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                 <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="s1">'Christmas gifts'</span><span class="p">,</span>
+                 <span class="s1">'order_id'</span> <span class="o">=&gt;</span> <span class="s1">'12345'</span>
+                 <span class="p">],</span>
+             <span class="s1">'buyer'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                 <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John Smith'</span><span class="p">,</span>
+                 <span class="s1">'email'</span> <span class="o">=&gt;</span>  <span class="s1">'js@example.com'</span>
+                 <span class="p">],</span>
+             <span class="s1">'language'</span> <span class="o">=&gt;</span> <span class="s1">'pl'</span><span class="p">,</span>
+             <span class="s1">'currency'</span> <span class="o">=&gt;</span> <span class="s1">'PLN'</span><span class="p">,</span>
+             <span class="s1">'amount'</span> <span class="o">=&gt;</span> <span class="s1">'150.00'</span><span class="p">,</span>
+             <span class="s1">'return_url'</span> <span class="o">=&gt;</span> <span class="s1">'https://example.com/thanks'</span>
+         <span class="p">);</span>
+ <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [pos_id] =&gt; 1
+    [amount] =&gt; 17.50
+    [language] =&gt; pl
+    [currency] =&gt; PLN
+    [buyer] =&gt; Array
+        (
+            [name] =&gt; John Smith
+            [email] =&gt; john@example.com
+        )
+
+    [order_data] =&gt; Array
+        (
+            [description] =&gt; Opis testowy
+            [order_id] =&gt; 403a6047-4798-4f1e-a93c-xxxxxxxxxxxx
+        )
+
+    [return_url] =&gt; http://example.com
+    [status_history] =&gt; Array
+        (
+        )
+
+    [updated_at] =&gt; 2016-12-22T11:00:22+0000
+    [created_at] =&gt; 2016-12-22T11:00:22+0000
+    [identifier] =&gt; XXXXXXX
+    [sign] =&gt; daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx
+    [redirect_url] =&gt; https://secure.monetivo.com/pay/XXXXXXX/daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/transactions</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>order_data[description]</td>
+<td>-</td>
+<td>tak</td>
+<td>Opis zamówienia</td>
+</tr>
+<tr>
+<td>order_data[order_id]</td>
+<td>-</td>
+<td>tak</td>
+<td>Dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)</td>
+</tr>
+<tr>
+<td>buyer[name]</td>
+<td>-</td>
+<td>tak</td>
+<td>nazwa kupującego</td>
+</tr>
+<tr>
+<td>buyer[email]</td>
+<td>-</td>
+<td>tak</td>
+<td>email kupującego</td>
+</tr>
+<tr>
+<td>language</td>
+<td>-</td>
+<td>tak</td>
+<td>język, którym posługuje się Klient</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>-</td>
+<td>tak</td>
+<td>waluta, dowolna spośród: PLN</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>-</td>
+<td>tak</td>
+<td>kwota zamówienia</td>
+</tr>
+<tr>
+<td>return_url</td>
+<td>-</td>
+<td>tak</td>
+<td>adres powrotny (URL) do przekierowania</td>
+</tr>
+<tr>
+<td>notify_url</td>
+<td>taki jak dla POS</td>
+<td>nie</td>
+<td>adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Dostępne wartości dla parametru <code>language</code> to: <code>pl</code>, <code>en</code>. Wybór języka determinuje pewne zachowania systemu, np. przy wyborze języka <code>en</code>
+Klient otrzyma wiadomość email w języku angielskim
+</aside>
+
+<aside class="notice">
+Adres powrotny <code>return_url</code> to adres podstrony Twojej witryny, na który zostanie przekierowany Klient po dokonaniu płatności.
+</aside>
+
+<aside class="notice">
+Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdefiniowanego w ramach wybranego POS. Adres <code>notify_url</code> zdefiniowany przy tworzeniu transakcji będzie wykorzystywany tylko dla tej transakcji.
+</aside>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>order_data[description]</td>
+<td>opis zamówienia</td>
+</tr>
+<tr>
+<td>order_data[order_id]</td>
+<td>dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)</td>
+</tr>
+<tr>
+<td>buyer[name]</td>
+<td>nazwa kupującego</td>
+</tr>
+<tr>
+<td>buyer[email]</td>
+<td>email kupującego</td>
+</tr>
+<tr>
+<td>language</td>
+<td>język, którym posługuje się Klient</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta, dowolna spośród: PLN</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>-</td>
+</tr>
+<tr>
+<td>return_url</td>
+<td>adres powrotny do przekierowania</td>
+</tr>
+<tr>
+<td>status_history</td>
+<td>historia zmian statusu</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data ostatniej zmiany statusu transakcji</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia transakcji</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>identyfikator transakcji</td>
+</tr>
+<tr>
+<td>sign</td>
+<td>podpis transakcji</td>
+</tr>
+<tr>
+<td>redirect_url</td>
+<td>adres URL, który umożliwia dokonanie płatności</td>
+</tr>
+<tr>
+<td>channel_id</td>
+<td>kanał płatności. Wartość <code class="prettyprint">null</code> przy utworzeniu transakcji - aktualizacja kanału następuje po dokonaniu płatności przez Klienta</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-transakcji">Lista transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy zapłaconych transakcji od dnia 2016-12-01
+</span>
+<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">([</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">,</span> <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="nx">\Monetivo\Api\Transactions</span><span class="o">::</span><span class="na">TRAN_STATUS_PAID</span><span class="p">]);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 2
+    [per_page] =&gt; 15
+    [current_page] =&gt; 1
+    [last_page] =&gt; 1
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
+    [from] =&gt; 1
+    [to] =&gt; 3
+    [data] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [pos_id] =&gt; 1
+                    [identifier] =&gt; MXXXXXX
+                    [currency] =&gt; PLN
+                    [amount] =&gt; 2.00
+                    [status] =&gt; 1
+                    [language] =&gt; pl
+                    [order_data] =&gt; Array
+                        (
+                            [order_id] =&gt; f011185b-fa2a-4b70-xxxx-xxxxxxxxxxxx
+                            [description] =&gt; Zakup testowy 1
+                        )
+
+                    [buyer] =&gt; Array
+                        (
+                            [name] =&gt; John Smith
+                            [email] =&gt; john@example.com
+                        )
+
+                    [status_history] =&gt; Array
+                        (
+                        )
+
+                    [return_url] =&gt; https://example.com/thanks
+                    [account_id] =&gt;
+                    [created_at] =&gt; 2016-12-09T12:38:04+0000
+                    [updated_at] =&gt; 2016-12-09T12:38:04+0000
+                    [channel_id] =&gt;
+                    [committed_at] =&gt;
+                    [accounted_at] =&gt;
+                    [partial_refunds] =&gt; Array()
+                )
+
+            [1] =&gt; Array
+                (
+                    [pos_id] =&gt; 1
+                    [identifier] =&gt; M1XXXXX
+                    [currency] =&gt; PLN
+                    [amount] =&gt; 100.00
+                    [status] =&gt; 1
+                    [language] =&gt; pl
+                    [order_data] =&gt; Array
+                        (
+                            [order_id] =&gt; d047f63d-7cdf-XXXX-9655-XXXXXXXXXXXX
+                            [description] =&gt; Christmas gifts
+                        )
+
+                    [buyer] =&gt; Array
+                        (
+                            [name] =&gt; Anna Doe
+                            [email] =&gt; ann@example.com
+                        )
+
+                    [status_history] =&gt; Array
+                        (
+                        )
+
+                    [return_url] =&gt; https://example.com/thanks
+                    [account_id] =&gt;
+                    [created_at] =&gt; 2016-12-09T12:41:58+0000
+                    [updated_at] =&gt; 2016-12-09T12:41:58+0000
+                    [channel_id] =&gt;
+                    [committed_at] =&gt;
+                    [accounted_at] =&gt;
+                    [partial_refunds] =&gt;
+                )
+
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/transactions</code></p>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>date_from</td>
+<td>-</td>
+<td>nie</td>
+<td>data od</td>
+</tr>
+<tr>
+<td>date_to</td>
+<td>-</td>
+<td>nie</td>
+<td>data do</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>asc</td>
+<td>nie</td>
+<td>kolejność sortowania: asc (od najstarszej), desc (od najnowszej)</td>
+</tr>
+<tr>
+<td>orderby</td>
+<td>-</td>
+<td>nie</td>
+<td>kolumna sortowania, patrz niżej</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>-</td>
+<td>nie</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>page</td>
+<td>-</td>
+<td>nie</td>
+<td>numer strony z wynikami</td>
+</tr>
+<tr>
+<td>email</td>
+<td>-</td>
+<td>nie</td>
+<td>ograniczenie wyszukania po wskazanym adresie email</td>
+</tr>
+<tr>
+<td>amount_from</td>
+<td>-</td>
+<td>nie</td>
+<td>kwota transakcji od</td>
+</tr>
+<tr>
+<td>amount_to</td>
+<td>-</td>
+<td>nie</td>
+<td>kwota transakcji do (włącznie)</td>
+</tr>
+<tr>
+<td>status</td>
+<td>-</td>
+<td>nie</td>
+<td>ograniczenie wyszukania do wskazanego statusu (wartość z tabeli Statusy transakcji)</td>
+</tr>
+</tbody></table>
+
+<h3 id="kolumny-sortowania">Kolumny sortowania</h3>
+
+<table><thead>
+<tr>
+<th>Kolumna</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>updated_at</td>
+<td>data zmiany statusu</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota</td>
+</tr>
+<tr>
+<td>committed_at</td>
+<td>data zaksięgowania</td>
+</tr>
+</tbody></table>
+
+<h3 id="statusy-transakcji">Statusy transakcji</h3>
+
+<table><thead>
+<tr>
+<th>Status</th>
+<th>Wartość</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Nowa</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Zapłacona</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Zaakceptowana</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Zwrócona</td>
+<td>16</td>
+</tr>
+<tr>
+<td>Odrzucona</td>
+<td>32</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>liczba wyników (transakcji)</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>bieżąca strona z wynikami</td>
+</tr>
+<tr>
+<td>last_page</td>
+<td>numer ostatniej strony z wynikami</td>
+</tr>
+<tr>
+<td>next_page_url</td>
+<td>adres URL do pobrania następnej strony z wynikami</td>
+</tr>
+<tr>
+<td>prev_page_url</td>
+<td>adres URL do pobrania poprzedniej strony z wynikami</td>
+</tr>
+<tr>
+<td>from</td>
+<td>wyniki od</td>
+</tr>
+<tr>
+<td>to</td>
+<td>wyniki do</td>
+</tr>
+<tr>
+<td>data</td>
+<td>tablica zawierająca wyniki</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-transakcji">Szczegóły transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów transakcji MO12345
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
+<span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>// przykład - transakcja zaakceptowana wraz z dwoma zwrotami częściowymi
+Array
+(
+    [pos_id] =&gt; 1
+    [identifier] =&gt; MXXXXXX
+    [currency] =&gt; PLN
+    [amount] =&gt; 15.50
+    [status] =&gt; 4
+    [language] =&gt; pl
+    [order_data] =&gt; Array
+        (
+            [order_id] =&gt; d6681448-f850-4c7c-bc28-XXXXXXXXXXXX
+            [description] =&gt; Opis testowy
+        )
+
+    [buyer] =&gt; Array
+        (
+            [name] =&gt; John Doe
+            [email] =&gt; john@example.com
+        )
+
+    [status_history] =&gt; Array
+        (
+        )
+
+    [return_url] =&gt; https://example.com
+    [account_id] =&gt;
+    [created_at] =&gt; 2016-12-13T10:18:06+0000
+    [updated_at] =&gt; 2016-12-13T10:18:06+0000
+    [committed_at] =&gt; 2016-12-13T10:18:08+0000
+    [channel_id] =&gt; 25
+    [partial_refunds] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [amount] =&gt; 1.00
+                    [committed_at] =&gt; 2017-01-04T10:10:36+0100
+                    [refund_identifier] =&gt; MRX8XXXX1
+                )
+
+            [1] =&gt; Array
+                (
+                    [amount] =&gt; 1.00
+                    [committed_at] =&gt; 2017-01-04T10:12:26+0100
+                    [refund_identifier] =&gt; MRX8XXXX2
+                )
+
+        )
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/transactions/&lt;ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>order_data[description]</td>
+<td>opis zamówienia</td>
+</tr>
+<tr>
+<td>order_data[order_id]</td>
+<td>dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)</td>
+</tr>
+<tr>
+<td>buyer[name]</td>
+<td>nazwa kupującego</td>
+</tr>
+<tr>
+<td>buyer[email]</td>
+<td>email kupującego</td>
+</tr>
+<tr>
+<td>language</td>
+<td>język, którym posługuje się Klient</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta, dowolna spośród: PLN</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>-</td>
+</tr>
+<tr>
+<td>return_url</td>
+<td>adres powrotny do przekierowania</td>
+</tr>
+<tr>
+<td>partial_refunds</td>
+<td>zwroty częściowe</td>
+</tr>
+<tr>
+<td>status_history</td>
+<td>historia zmian statusu</td>
+</tr>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data ostatniej zmiany statusu transakcji</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia transakcji</td>
+</tr>
+<tr>
+<td>committed_at</td>
+<td>data zaksięgowania transakcji na koncie merchanta</td>
+</tr>
+<tr>
+<td>partial_refunds</td>
+<td>częściowe zwroty transakcji</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>identyfikator transakcji</td>
+</tr>
+<tr>
+<td>channel_id</td>
+<td>identyfikator kanału płatności użytego do dokonania płatności przez Klienta</td>
+</tr>
+</tbody></table>
+
+<h2 id="obs-uga-powiadomie-o-statusie">Obsługa powiadomień o statusie</h2>
+
+<p>Zmiana statusu transakcji powoduje  wysłanie przez system Monetivo powiadomienia na adres URL podany przez Merchanta.</p>
+
+<aside class="notice">
+Adres <code>notify_url</code> zazwyczaj jest zdefiniowany przy POS. Istnieje możliwość nadpisania tego adresu przy tworzeniu transakcji tylko i wyłącznie na potrzeby tej transakcji.
+</aside>
+
+<p>Po odebraniu powiadomienia, w przypadku gdy transakcja jest poprawna (opłacona, a następnie zaakceptowana), możesz przystąpić do dalszych czynności związanych z realizacją płatności po Twojej stronie.</p>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// odbiór powiadomienia
+</span><span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">handleCallback</span><span class="p">();</span>
+
+<span class="c1">// sprawdzenie czy transakcja została
+</span><span class="k">if</span><span class="p">(</span><span class="nv">$transaction</span> <span class="o">===</span> <span class="kc">false</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">exit</span><span class="p">(</span><span class="s1">'Transakcja nie została zaakceptowana'</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+  <span class="c1">// transakcja została opłacona i zaakceptowana,
+</span>  <span class="c1">// zmienna $transaction obejmuje szczegóły transakcji,
+</span>  <span class="c1">// Twój kod - dalsza część logiki, np. oznaczenie płatności w systemie jako wykonanej, wysłanie maila, etc.
+</span><span class="p">}</span>
+</code></pre>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>identifier</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h2 id="akceptacja-transakcji">Akceptacja transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów transakcji MO12345
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
+<span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">accept</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Poprawna odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji</p>
+
+<p>W przypadku wystąpienia błędu zwrócony zostanie odpowiedni komunikat:</p>
+</blockquote>
+<pre class="highlight php"><code>// przykład: próba zaakceptowania transakcji oczekującej - serwer zwraca komunikat o błędzie z informacją, że nie można zaakceptować oczekującej, nieopłaconej transakcji
+Array
+(
+    [errors] =&gt; Array
+        (
+            [code] =&gt; 1
+            [message] =&gt; "Cannot accept transaction - incorrect status"
+        )
+)
+
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">PUT https://api.monetivo.com/v1/transactions/&lt;ID&gt;/accept</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<aside>
+Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (domyślnie włączona)
+</aside>
+
+<h2 id="odrzucenie-transakcji">Odrzucenie transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów transakcji MO12345
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
+<span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">decline</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji</p>
+</blockquote>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">PUT https://api.monetivo.com/v1/transactions/&lt;ID&gt;/decline</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h2 id="zwrot-transakcji">Zwrot transakcji</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów transakcji MO12345
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
+<span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">refund</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [name] =&gt; John Smith
+    [email] =&gt; john@example.com
+    [amount] =&gt; 1.00
+    [transaction_identifier] =&gt; MO12345
+    [currency] =&gt; PLN
+    [description] =&gt; christmas gifts
+    [reason] =&gt; 4
+    [partial] =&gt; 0
+    [status_history] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [status] =&gt; 1
+                    [date] =&gt; 2017-01-04T09:07:38+0000
+                )
+        )
+    [status] =&gt; 1
+    [updated_at] =&gt; 2017-01-04T09:07:38+0100
+    [created_at] =&gt; 2017-01-04T09:07:38+0100
+    [identifier] =&gt; MRX8ER10X
+    [account_id] =&gt; 1
+    [committed_at] =&gt; 2017-01-04T10:07:37+0100
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/transactions/&lt;ID&gt;/refund</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>nazwa kupującego</td>
+</tr>
+<tr>
+<td>email</td>
+<td>email kupującego</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota zwrotu</td>
+</tr>
+<tr>
+<td>transaction_identifier</td>
+<td>identyfikator transakcji</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>description</td>
+<td>opis zwrotu</td>
+</tr>
+<tr>
+<td>reason</td>
+<td>źródło zwrotu (patrz niżej)</td>
+</tr>
+<tr>
+<td>partial</td>
+<td>czy zwrot częściowy. Wartość <code class="prettyprint">true</code> jeśli kwota zwrotu jest niższa od kwoty transakcji</td>
+</tr>
+<tr>
+<td>status_history</td>
+<td>historia zmian statusu</td>
+</tr>
+<tr>
+<td>status</td>
+<td>status zwrotu</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data aktualizacji zwrotu</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia zwrotu</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>identyfikator zwrotu</td>
+</tr>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku</td>
+</tr>
+<tr>
+<td>committed_at</td>
+<td>data księgowania</td>
+</tr>
+</tbody></table>
+
+<h3 id="r-d-a-zwrotu">Źródła zwrotu</h3>
+
+<table><thead>
+<tr>
+<th>Wartość</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>transakcja nie została zaakceptowana</td>
+</tr>
+<tr>
+<td>2</td>
+<td>transakcja nie została odnaleziona w systemie</td>
+</tr>
+<tr>
+<td>4</td>
+<td>zwrot nastąpił na żądanie merchanta</td>
+</tr>
+<tr>
+<td>8</td>
+<td>zwrot nastąpił z powodu błędu w przetwarzaniu transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="statusy-zwrotu">Statusy zwrotu</h3>
+
+<table><thead>
+<tr>
+<th>Wartość</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>oczekiwanie na uzupełnienie danych bankowych</td>
+</tr>
+<tr>
+<td>2</td>
+<td>oczekiwanie na przesłanie danych do banku</td>
+</tr>
+<tr>
+<td>8</td>
+<td>dane bankowe przesłane do wypłaty</td>
+</tr>
+</tbody></table>
+
+          <h1 id="pos">POS</h1>
+
+<p>POS to punkt sprzedaży, np. Twój sklep internetowy. Możesz posiadać wiele POS-ów, które są przypisane do Twojego konta merchanta. Każdy POS posiada szereg ustawień, w tym adres URL na który będą przychodzić powiadomienia o zmianie statusu transakcji
+POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji.</p>
+
+<h2 id="lista-pos">Lista POS</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy POS
+</span>
+<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 1
+    [per_page] =&gt; 15
+    [current_page] =&gt; 1
+    [last_page] =&gt; 1
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
+    [from] =&gt; 1
+    [to] =&gt; 1
+    [data] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [pos_id] =&gt; 1
+                    [name] =&gt; Some Merchant, Inc.
+                    [url] =&gt; https://example.com
+                    [merchant_id] =&gt; 1
+                    [contact_user] =&gt; Array
+                        (
+                            [name] =&gt; John
+                            [email] =&gt; contact@example.com
+                            [phone] =&gt; +48123456789
+                            [title] =&gt; Mr
+                            [surname] =&gt; Doe
+                        )
+
+                    [enabled] =&gt; 1
+                    [parameters] =&gt; Array
+                        (
+                            [url_notify] =&gt; https://example.com/notify
+                        )
+
+                    [created_at] =&gt; 2016-12-09T12:24:15+0000
+                    [updated_at] =&gt; 2016-12-09T12:24:15+0000
+                )
+
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>liczba wyników (POS)</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>bieżąca strona z wynikami</td>
+</tr>
+<tr>
+<td>last_page</td>
+<td>numer ostatniej strony z wynikami</td>
+</tr>
+<tr>
+<td>next_page_url</td>
+<td>adres URL do pobrania następnej strony z wynikami</td>
+</tr>
+<tr>
+<td>prev_page_url</td>
+<td>adres URL do pobrania poprzedniej strony z wynikami</td>
+</tr>
+<tr>
+<td>from</td>
+<td>wyniki od</td>
+</tr>
+<tr>
+<td>to</td>
+<td>wyniki do</td>
+</tr>
+<tr>
+<td>data</td>
+<td>tablica zawierająca wyniki</td>
+</tr>
+</tbody></table>
+
+<h3 id="pos">POS</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>name</td>
+<td>nazwa POS</td>
+</tr>
+<tr>
+<td>url</td>
+<td>adres URL POS</td>
+</tr>
+<tr>
+<td>merchant_id</td>
+<td>identyfikator merchanta</td>
+</tr>
+<tr>
+<td>contact_user[name]</td>
+<td>imię osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[surname]</td>
+<td>nazwisko osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[email]</td>
+<td>adres email osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[phone]</td>
+<td>telefon osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[title]</td>
+<td>tytuł służbowy osoby kontaktowej</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>POS aktywny</td>
+</tr>
+<tr>
+<td>parameters[url_notify]</td>
+<td>adres URL do wysyłania powiadomień o zmianie statusu transakcji</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data ostatniej edycji</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-pos">Szczegóły POS</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów POS o identyfikatorze 1
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
+<span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [pos_id] =&gt; 1
+    [name] =&gt; Some Merchant, Inc.
+    [url] =&gt; https://example.com
+    [merchant_id] =&gt; 1
+    [contact_user] =&gt; Array
+        (
+            [name] =&gt; John
+            [email] =&gt; contact@example.com
+            [phone] =&gt; +48123456789
+            [title] =&gt; Mr
+            [surname] =&gt; Doe
+        )
+
+    [enabled] =&gt; 1
+    [parameters] =&gt; Array
+        (
+            [url_notify] =&gt; https://example.com/notify
+        )
+
+    [created_at] =&gt; 2016-12-09T12:24:15+0000
+    [updated_at] =&gt; 2016-12-09T12:24:15+0000
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos/&lt;ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator POS</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="pos">POS</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>name</td>
+<td>nazwa POS</td>
+</tr>
+<tr>
+<td>url</td>
+<td>adres URL POS</td>
+</tr>
+<tr>
+<td>merchant_id</td>
+<td>identyfikator merchanta</td>
+</tr>
+<tr>
+<td>contact_user[name]</td>
+<td>imię osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[surname]</td>
+<td>nazwisko osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[email]</td>
+<td>adres email osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[phone]</td>
+<td>telefon osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[title]</td>
+<td>tytuł służbowy osoby kontaktowej</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>POS aktywny</td>
+</tr>
+<tr>
+<td>parameters[url_notify]</td>
+<td>adres URL do wysyłania powiadomień o zmianie statusu transakcji</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data ostatniej edycji</td>
+</tr>
+</tbody></table>
+
+          <h1 id="rachunki">Rachunki</h1>
+
+<h2 id="lista-rachunk-w">Lista rachunków</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy rachunków
+</span>
+<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 2
+    [per_page] =&gt; 15
+    [current_page] =&gt; 1
+    [last_page] =&gt; 1
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
+    [from] =&gt; 1
+    [to] =&gt; 2
+    [data] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [account_id] =&gt; 2
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 0.00
+                    [name] =&gt; second PLN
+                    [created_at] =&gt; 2016-12-15T15:15:00+0000
+                    [updated_at] =&gt; 2016-12-15T15:15:00+0000
+                )
+
+            [1] =&gt; Array
+                (
+                    [account_id] =&gt; 1
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6337.54
+                    [name] =&gt; Default PLN
+                    [created_at] =&gt; 2016-12-09T12:24:15+0000
+                    [updated_at] =&gt; 2017-01-03T15:18:41+0000
+                )
+
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>liczba wyników (rachunków)</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>bieżąca strona z wynikami</td>
+</tr>
+<tr>
+<td>last_page</td>
+<td>numer ostatniej strony z wynikami</td>
+</tr>
+<tr>
+<td>next_page_url</td>
+<td>adres URL do pobrania następnej strony z wynikami</td>
+</tr>
+<tr>
+<td>prev_page_url</td>
+<td>adres URL do pobrania poprzedniej strony z wynikami</td>
+</tr>
+<tr>
+<td>from</td>
+<td>wyniki od</td>
+</tr>
+<tr>
+<td>to</td>
+<td>wyniki do</td>
+</tr>
+<tr>
+<td>data</td>
+<td>tablica zawierająca wyniki</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-rachunku">Szczegóły rachunku</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów rachunku 1
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
+<span class="nv">$account</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [account_id] =&gt; 1
+    [currency] =&gt; PLN
+    [balance] =&gt; 6337.54
+    [name] =&gt; Default PLN
+    [created_at] =&gt; 2016-12-09T12:24:15+0000
+    [updated_at] =&gt; 2017-01-03T15:18:41+0000
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>saldo na rachunku</td>
+</tr>
+<tr>
+<td>name</td>
+<td>nazwa rachunku</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia rachunku</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data aktualizacji rachunku</td>
+</tr>
+</tbody></table>
+
+<h2 id="raport-rachunku">Raport rachunku</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie raportu z listą transakcji z rachunku 1 od dnia 2016-12-01
+</span>
+<span class="nv">$report</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">report</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">\Monetivo\Api\Accounts</span><span class="o">::</span><span class="na">REPORT_TRANSACTIONS</span><span class="p">,</span> <span class="p">[</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">]);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 10
+    [per_page] =&gt; 5
+    [current_page] =&gt; 1
+    [last_page] =&gt; 2
+    [next_page_url] =&gt; https://api.monetivo.com/v1/accounts/1/report?page=2
+    [prev_page_url] =&gt;
+    [from] =&gt; 1
+    [to] =&gt; 15
+    [data] =&gt; Array
+        (
+            [0] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; 33.00
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6085.71
+                    [operation_type] =&gt; 12
+                    [operation_data] =&gt; Array
+                        (
+                            [name] =&gt; Jan Kowalski
+                            [email] =&gt; jk@example.com
+                            [order_id] =&gt; 7a085d21-xxxx-xxxx-xxxx-f5d8cef86636
+                        )
+
+                    [offer] =&gt; Array
+                        (
+                            [commission] =&gt; 0.36
+                            [commission_rate] =&gt; 1.10
+                            [commission_const] =&gt; 0.00
+                        )
+
+                    [identifier] =&gt; M8MXXXX
+                    [created_at] =&gt; 2017-01-02T08:16:53+0000
+                )
+
+            [1] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; -0.36
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6085.35
+                    [operation_type] =&gt; 10
+                    [operation_data] =&gt;
+                    [offer] =&gt;
+                    [identifier] =&gt; M8MXXXX
+                    [created_at] =&gt; 2017-01-02T08:16:53+0000
+                )
+
+            [2] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; 1.00
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6086.35
+                    [operation_type] =&gt; 12
+                    [operation_data] =&gt; Array
+                        (
+                            [name] =&gt; Anna Nowak
+                            [email] =&gt; an@example.com
+                            [order_id] =&gt; 2b20c8b7-xxxx-xxxx-xxxx-21fb52710f79
+                        )
+
+                    [offer] =&gt; Array
+                        (
+                            [commission] =&gt; 0.01
+                            [commission_rate] =&gt; 1.10
+                            [commission_const] =&gt; 0.00
+                        )
+
+                    [identifier] =&gt; M0LXXXX
+                    [created_at] =&gt; 2017-01-02T15:00:49+0000
+                )
+
+            [3] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; -0.01
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6086.34
+                    [operation_type] =&gt; 10
+                    [operation_data] =&gt;
+                    [offer] =&gt;
+                    [identifier] =&gt; M0LXXXX
+                    [created_at] =&gt; 2017-01-02T15:00:49+0000
+                )
+
+            [4] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; 1.00
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6087.34
+                    [operation_type] =&gt; 12
+                    [operation_data] =&gt; Array
+                        (
+                            [name] =&gt; J. Sobechuck
+                            [email] =&gt; sopel2k@example.com
+                            [order_id] =&gt; c900a485-xxxx-xxxx-xxxx-6112598fa0d9
+                        )
+
+                    [offer] =&gt; Array
+                        (
+                            [commission] =&gt; 0.01
+                            [commission_rate] =&gt; 1.10
+                            [commission_const] =&gt; 0.00
+                        )
+
+                    [identifier] =&gt; M0WXXXX
+                    [created_at] =&gt; 2017-01-02T16:13:42+0000
+                )
+
+            [5] =&gt; Array
+                (
+                    [object_type] =&gt; 2
+                    [amount] =&gt; -0.01
+                    [currency] =&gt; PLN
+                    [balance] =&gt; 6087.33
+                    [operation_type] =&gt; 10
+                    [operation_data] =&gt;
+                    [offer] =&gt;
+                    [identifier] =&gt; M0WXXXX
+                    [created_at] =&gt; 2017-01-02T16:13:42+0000
+                )
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<blockquote>
+<p>Wyniki posortowane są po identyfikatorze operacji</p>
+</blockquote>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ID&gt;/report?type=&lt;TYPE&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku</td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>-</td>
+<td>tak</td>
+<td>typ raportu (patrz poniżej); można określić wiele typów poprzez rozdzielenie przecinkiem</td>
+</tr>
+<tr>
+<td>date_from</td>
+<td>-</td>
+<td>nie</td>
+<td>data od</td>
+</tr>
+<tr>
+<td>date_to</td>
+<td>-</td>
+<td>nie</td>
+<td>data do</td>
+</tr>
+<tr>
+<td>order</td>
+<td>asc</td>
+<td>nie</td>
+<td>kolejność sortowania: asc (od najstarszej), desc (od najnowszej)</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>-</td>
+<td>nie</td>
+<td>pomiń x wyników</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>-</td>
+<td>nie</td>
+<td>limit ilości zwracanych wyników</td>
+</tr>
+</tbody></table>
+
+<h3 id="obs-ugiwane-typy-raport-w">Obsługiwane typy raportów:</h3>
+
+<table><thead>
+<tr>
+<th>Typ</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>wypłaty</td>
+</tr>
+<tr>
+<td>2</td>
+<td>transakcje</td>
+</tr>
+<tr>
+<td>4</td>
+<td>zwroty</td>
+</tr>
+<tr>
+<td>32</td>
+<td>obciążenia</td>
+</tr>
+</tbody></table>
+
+<h3 id="pozycja-raportu">Pozycja raportu</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>object_type</td>
+<td>typ operacji</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota operacji</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>saldo po operacji</td>
+</tr>
+<tr>
+<td>operation_data</td>
+<td>szczegóły operacji</td>
+</tr>
+<tr>
+<td>offer</td>
+<td>szczegóły zastosowanej oferty</td>
+</tr>
+<tr>
+<td>identifier</td>
+<td>identyfikator powiązanego obiektu</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia pozycji</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Typy obiektów wyszczególnione w raporcie <code>object_type</code> są tożsame z typem raportu.
+</aside>
+
+          <h1 id="rachunki-bankowe">Rachunki bankowe</h1>
+
+<h2 id="lista-rachunk-w-bankowych">Lista rachunków bankowych</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy rachunków bankowych
+</span>
+<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 0
+    [per_page] =&gt; 15
+    [current_page] =&gt; 1
+    [last_page] =&gt; 0
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
+    [from] =&gt;
+    [to] =&gt;
+    [data] =&gt; Array
+        (
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/bank_accounts</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>Token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>liczba wyników (rachunków bankowych)</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>bieżąca strona z wynikami</td>
+</tr>
+<tr>
+<td>last_page</td>
+<td>numer ostatniej strony z wynikami</td>
+</tr>
+<tr>
+<td>next_page_url</td>
+<td>adres URL do pobrania następnej strony z wynikami</td>
+</tr>
+<tr>
+<td>prev_page_url</td>
+<td>adres URL do pobrania poprzedniej strony z wynikami</td>
+</tr>
+<tr>
+<td>from</td>
+<td>wyniki od</td>
+</tr>
+<tr>
+<td>to</td>
+<td>wyniki do</td>
+</tr>
+<tr>
+<td>data</td>
+<td>tablica zawierająca wyniki</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-rachunku-bankowego">Szczegóły rachunku bankowego</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów rachunku bankowego 1
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
+<span class="nv">$account</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [merchant_account_id] =&gt; 1
+    [account_number] =&gt; 60102010260000042270201111
+    [name] =&gt; Jan Kowalski
+    [address] =&gt; Botaniczna 8
+    [description] =&gt; rachunek podstawowy
+    [verified_at] =&gt;
+    [created_at] =&gt;
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/bank_accounts/&lt;ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku bankowego</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+          <h1 id="wyp-aty">Wypłaty</h1>
+
+<p>Funkcjonalność wypłat pozwala na transfer środków z konta Merchanta w systemie Monetivo na konto bankowe.</p>
+
+<aside class="notice">
+Do Twojego konta musi być przypisane konto bankowe. Konto to wymaga weryfikacji.
+</aside>
+
+<h2 id="zlecenie-wyp-aty">Zlecenie wypłaty</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// tworzenie zlecenia wypłaty środków
+</span>
+<span class="nv">$account_id</span> <span class="o">=</span> <span class="s1">'M12345'</span><span class="p">;</span>
+<span class="nv">$payout</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$account_id</span><span class="p">);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [identifier] =&gt; 1
+    [account_number] =&gt; 60102010260000042270201111
+    [account_name] =&gt; Default PLN
+    [account_address] =&gt; Botaniczna 8, Poznan
+    [amount] =&gt; 1000.00
+    [status] =&gt; 60102010260000042270201111
+    [status_history] =&gt; Array (
+
+      )
+    [account_id] =&gt; 1
+    [currency] =&gt; PLN
+    [committed_at] =&gt;
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/payouts</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ACCOUNT_ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku w systemie Monetivo</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>identifier</td>
+<td>identyfikator wypłaty</td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>numer rachunku bankowego na który zlecono wypłatę</td>
+</tr>
+<tr>
+<td>account_name</td>
+<td>nazwa odbiorcy płatności</td>
+</tr>
+<tr>
+<td>account_address</td>
+<td>adres odbiorcy płatności</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota</td>
+</tr>
+<tr>
+<td>status</td>
+<td>status, patrz niżej</td>
+</tr>
+<tr>
+<td>status_history</td>
+<td>historia zmiana statusu</td>
+</tr>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku w systemie Monetivo</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>committed_at</td>
+<td>data wykonania</td>
+</tr>
+</tbody></table>
+
+<h3 id="statusy-wyp-aty">Statusy wypłaty</h3>
+
+<table><thead>
+<tr>
+<th>Wartość</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>1</td>
+<td>nowa wypłata, status początkowy</td>
+</tr>
+<tr>
+<td>4</td>
+<td>zlecenie wypłaty przekazane do banku</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w systemie Monetivo pomniejszonej o prowizje.
+</aside>
+
+<h2 id="lista-wyp-at">Lista wypłat</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy wypłat
+</span>
+<span class="nv">$payouts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [total] =&gt; 0
+    [per_page] =&gt; 15
+    [current_page] =&gt; 1
+    [last_page] =&gt; 0
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
+    [from] =&gt;
+    [to] =&gt;
+    [data] =&gt; Array
+        (
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/payouts</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ACCOUNT_ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku w systemie Monetivo</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>liczba wyników (wypłat)</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>ilość wyników na stronę</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>bieżąca strona z wynikami</td>
+</tr>
+<tr>
+<td>last_page</td>
+<td>numer ostatniej strony z wynikami</td>
+</tr>
+<tr>
+<td>next_page_url</td>
+<td>adres URL do pobrania następnej strony z wynikami</td>
+</tr>
+<tr>
+<td>prev_page_url</td>
+<td>adres URL do pobrania poprzedniej strony z wynikami</td>
+</tr>
+<tr>
+<td>from</td>
+<td>wyniki od</td>
+</tr>
+<tr>
+<td>to</td>
+<td>wyniki do</td>
+</tr>
+<tr>
+<td>data</td>
+<td>tablica zawierająca wyniki</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-wyp-aty">Szczegóły wypłaty</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie szczegółów wypłaty o identyfikatorze M12345
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'M12345'</span><span class="p">;</span>
+<span class="nv">$payout</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [identifier] =&gt; 1
+    [account_number] =&gt; 60102010260000042270201111
+    [account_name] =&gt; Default PLN
+    [account_address] =&gt; Botaniczna 8, Poznan
+    [amount] =&gt; 1000.00
+    [status] =&gt; 60102010260000042270201111
+    [status_history] =&gt; Array (
+
+      )
+    [account_id] =&gt; 1
+    [currency] =&gt; PLN
+    [committed_at] =&gt;
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/payouts/&lt;PAYOUT_ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ACCOUNT_ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator rachunku w systemie Monetivo</td>
+</tr>
+<tr>
+<td>PAYOUT_ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator wypłaty</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>identifier</td>
+<td>identyfikator wypłaty</td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>numer rachunku bankowego na który zlecono wypłatę</td>
+</tr>
+<tr>
+<td>account_name</td>
+<td>nazwa odbiorcy płatności</td>
+</tr>
+<tr>
+<td>account_address</td>
+<td>adres odbiorcy płatności</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota</td>
+</tr>
+<tr>
+<td>status</td>
+<td>status, patrz niżej</td>
+</tr>
+<tr>
+<td>status_history</td>
+<td>historia zmiana statusu</td>
+</tr>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku w systemie Monetivo</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>committed_at</td>
+<td>data wykonania</td>
+</tr>
+</tbody></table>
+
+          <h1 id="adresy">Adresy</h1>
+
+<p>Do konta merchanta przypisane są dane adresowe. Dane mogą posiadać następujący typ:</p>
+
+<table><thead>
+<tr>
+<th>Typ</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>registration</td>
+<td>adres podawany przy rejestracji</td>
+</tr>
+<tr>
+<td>correspondence</td>
+<td>adres korespondencyjny</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-adres-w">Lista adresów</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie adresu do korespondencji
+</span>
+<span class="nv">$addresses</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [zip] =&gt; 60-586
+    [city] =&gt; Poznań
+    [block] =&gt; 8
+    [phone] =&gt; +48123456789
+    [street] =&gt; ul. Botaniczna
+    [country] =&gt; POL
+    [companyname] =&gt; Fundacja Polak Pomaga
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/addresses/&lt;TYPE&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TYPE</td>
+<td>-</td>
+<td>tak</td>
+<td>Typ adresu, patrz tabela wyżej</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h2 id="aktualizacja-adresu">Aktualizacja adresu</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// aktualizacja adresu do korespondencji - zmiana miasta
+</span>
+<span class="nv">$address</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">,</span> <span class="p">[</span><span class="s1">'city'</span> <span class="o">=&gt;</span> <span class="s1">'Poznań'</span><span class="p">]);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [zip] =&gt; 60-586
+    [city] =&gt; Poznań
+    [block] =&gt; 8
+    [phone] =&gt; +48123456789
+    [street] =&gt; ul. Botaniczna
+    [country] =&gt; POL
+    [companyname] =&gt; Fundacja Polak Pomaga
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">PUT https://api.monetivo.com/v1/addresses/&lt;TYPE&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TYPE</td>
+<td>-</td>
+<td>tak</td>
+<td>Typ adresu, patrz tabela wyżej</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>zip</td>
+<td>-</td>
+<td>tak</td>
+<td>Kod pocztowy</td>
+</tr>
+<tr>
+<td>city</td>
+<td>-</td>
+<td>tak</td>
+<td>Miasto</td>
+</tr>
+<tr>
+<td>block</td>
+<td>-</td>
+<td>tak</td>
+<td>Nr mieszkania/lokalu</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>-</td>
+<td>tak</td>
+<td>Telefon</td>
+</tr>
+<tr>
+<td>street</td>
+<td>-</td>
+<td>tak</td>
+<td>Ulica</td>
+</tr>
+<tr>
+<td>country</td>
+<td>-</td>
+<td>tak</td>
+<td>Państwo</td>
+</tr>
+<tr>
+<td>companyname</td>
+<td>-</td>
+<td>tak</td>
+<td>Nazwa firmy</td>
+</tr>
+</tbody></table>
+
+          <h1 id="oferta">Oferta</h1>
+
+<p>Oferta obejmuje informacje o prowizjach pobieranych przez Monetivo. Obecnie wyróżniamy dwa typy oferty:</p>
+
+<table><thead>
+<tr>
+<th>Typ oferty</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>payments</td>
+<td>oferta dotycząca płatności (prowizje za płatność w kanale)</td>
+</tr>
+<tr>
+<td>services</td>
+<td>oferta dotycząca usług (prowizje za poszczególne usługi udostępniane przez Monetivo merchantowi)</td>
+</tr>
+</tbody></table>
+
+<h2 id="lista-ofert">Lista ofert</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy ofert dla udostępnionych usług
+</span>
+<span class="nv">$offers</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_PAYMENTS</span><span class="p">);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [0] =&gt; Array
+        (
+            [channel_id] =&gt; 1
+            [channel_name] =&gt; Blik
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [1] =&gt; Array
+        (
+            [channel_id] =&gt; 2
+            [channel_name] =&gt; mTransfer
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [2] =&gt; Array
+        (
+            [channel_id] =&gt; 3
+            [channel_name] =&gt; Płać z ING
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [3] =&gt; Array
+        (
+            [channel_id] =&gt; 4
+            [channel_name] =&gt; Pekao24Przelew
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [4] =&gt; Array
+        (
+            [channel_id] =&gt; 5
+            [channel_name] =&gt; Przelew24 BZWBK
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [5] =&gt; Array
+        (
+            [channel_id] =&gt; 6
+            [channel_name] =&gt; Płacę z Alior Bankiem
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [6] =&gt; Array
+        (
+            [channel_id] =&gt; 7
+            [channel_name] =&gt; Płacę z IPKO
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [7] =&gt; Array
+        (
+            [channel_id] =&gt; 8
+            [channel_name] =&gt; Płacę z Inteligo
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [8] =&gt; Array
+        (
+            [channel_id] =&gt; 9
+            [channel_name] =&gt; Millennium Bank PBL
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [9] =&gt; Array
+        (
+            [channel_id] =&gt; 10
+            [channel_name] =&gt; CA przelew online
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [10] =&gt; Array
+        (
+            [channel_id] =&gt; 11
+            [channel_name] =&gt; T-Mobile Usługi Bankowe
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [11] =&gt; Array
+        (
+            [channel_id] =&gt; 12
+            [channel_name] =&gt; Deutsche Bank
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [12] =&gt; Array
+        (
+            [channel_id] =&gt; 13
+            [channel_name] =&gt; BPH Przelew
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [13] =&gt; Array
+        (
+            [channel_id] =&gt; 14
+            [channel_name] =&gt; BGŻ BNP Paribas
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [14] =&gt; Array
+        (
+            [channel_id] =&gt; 15
+            [channel_name] =&gt; Eurobank - płatność online
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [15] =&gt; Array
+        (
+            [channel_id] =&gt; 16
+            [channel_name] =&gt; PBS PBL
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [16] =&gt; Array
+        (
+            [channel_id] =&gt; 17
+            [channel_name] =&gt; r-Przelew
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [17] =&gt; Array
+        (
+            [channel_id] =&gt; 18
+            [channel_name] =&gt; Toyota Bank Pay Way
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [18] =&gt; Array
+        (
+            [channel_id] =&gt; 19
+            [channel_name] =&gt; BSWSCHOWA PBL
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [19] =&gt; Array
+        (
+            [channel_id] =&gt; 20
+            [channel_name] =&gt; Płać z BOŚ Bank
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [20] =&gt; Array
+        (
+            [channel_id] =&gt; 21
+            [channel_name] =&gt; Getin Bank
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [21] =&gt; Array
+        (
+            [channel_id] =&gt; 22
+            [channel_name] =&gt; Płacę z Orange
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [22] =&gt; Array
+        (
+            [channel_id] =&gt; 23
+            [channel_name] =&gt; Płacę z Citi Handlowy
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [23] =&gt; Array
+        (
+            [channel_id] =&gt; 24
+            [channel_name] =&gt; e-transfer Pocztowy24
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [24] =&gt; Array
+        (
+            [channel_id] =&gt; 25
+            [channel_name] =&gt; Płacę z PLUS BANK
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [25] =&gt; Array
+        (
+            [channel_id] =&gt; 26
+            [channel_name] =&gt; Noble Bank
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [26] =&gt; Array
+        (
+            [channel_id] =&gt; 27
+            [channel_name] =&gt; Inny bank
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [27] =&gt; Array
+        (
+            [channel_id] =&gt; 28
+            [channel_name] =&gt; Karty SixPay
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [28] =&gt; Array
+        (
+            [channel_id] =&gt; 29
+            [channel_name] =&gt; Sofort
+            [commission_rate] =&gt; 1.10
+            [commission_const] =&gt; 0.00
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/offer/&lt;TYPE&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TYPE</td>
+<td>-</td>
+<td>tak</td>
+<td>typ oferty, patrz tabela wyżej</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h2 id="szczeg-y-oferty">Szczegóły oferty</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobranie szczegółów oferty dotyczącej usługi o identyfikatorze 18
+</span>
+<span class="nv">$offer</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_SERVICES</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [0] =&gt; Array
+        (
+            [service_id] =&gt; 18
+            [service_name] =&gt; account_locked_operation
+            [commission_rate] =&gt; 0.00
+            [commission_const] =&gt; 0.00
+        )
+
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/offer/&lt;TYPE&gt;/&lt;ID&gt;</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TYPE</td>
+<td>-</td>
+<td>tak</td>
+<td>typ adresu, patrz tabela wyżej</td>
+</tr>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator oferty</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>service_id</td>
+<td>identyfikator usługi</td>
+</tr>
+<tr>
+<td>service_name</td>
+<td>nazwa usługi</td>
+</tr>
+<tr>
+<td>commision_rate</td>
+<td>stawka prowizji</td>
+</tr>
+<tr>
+<td>commission_const</td>
+<td>prowizja w postaci stałej opłaty</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="php">php</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
