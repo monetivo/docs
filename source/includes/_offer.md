@@ -31,7 +31,7 @@ Array
         (
             [channel_id] => 1
             [channel_name] => Blik
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -39,7 +39,7 @@ Array
         (
             [channel_id] => 2
             [channel_name] => mTransfer
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -47,7 +47,7 @@ Array
         (
             [channel_id] => 3
             [channel_name] => Płać z ING
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -55,7 +55,7 @@ Array
         (
             [channel_id] => 4
             [channel_name] => Pekao24Przelew
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -63,7 +63,7 @@ Array
         (
             [channel_id] => 5
             [channel_name] => Przelew24 BZWBK
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -71,7 +71,7 @@ Array
         (
             [channel_id] => 6
             [channel_name] => Płacę z Alior Bankiem
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -79,7 +79,7 @@ Array
         (
             [channel_id] => 7
             [channel_name] => Płacę z IPKO
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -87,7 +87,7 @@ Array
         (
             [channel_id] => 8
             [channel_name] => Płacę z Inteligo
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -95,7 +95,7 @@ Array
         (
             [channel_id] => 9
             [channel_name] => Millennium Bank PBL
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -103,7 +103,7 @@ Array
         (
             [channel_id] => 10
             [channel_name] => CA przelew online
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -111,7 +111,7 @@ Array
         (
             [channel_id] => 11
             [channel_name] => T-Mobile Usługi Bankowe
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -119,7 +119,7 @@ Array
         (
             [channel_id] => 12
             [channel_name] => Deutsche Bank
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -127,7 +127,7 @@ Array
         (
             [channel_id] => 13
             [channel_name] => BPH Przelew
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -135,7 +135,7 @@ Array
         (
             [channel_id] => 14
             [channel_name] => BGŻ BNP Paribas
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -143,7 +143,7 @@ Array
         (
             [channel_id] => 15
             [channel_name] => Eurobank - płatność online
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -151,7 +151,7 @@ Array
         (
             [channel_id] => 16
             [channel_name] => PBS PBL
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -159,7 +159,7 @@ Array
         (
             [channel_id] => 17
             [channel_name] => r-Przelew
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -167,7 +167,7 @@ Array
         (
             [channel_id] => 18
             [channel_name] => Toyota Bank Pay Way
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -175,7 +175,7 @@ Array
         (
             [channel_id] => 19
             [channel_name] => BSWSCHOWA PBL
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -183,7 +183,7 @@ Array
         (
             [channel_id] => 20
             [channel_name] => Płać z BOŚ Bank
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -191,7 +191,7 @@ Array
         (
             [channel_id] => 21
             [channel_name] => Getin Bank
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -199,7 +199,7 @@ Array
         (
             [channel_id] => 22
             [channel_name] => Płacę z Orange
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -207,7 +207,7 @@ Array
         (
             [channel_id] => 23
             [channel_name] => Płacę z Citi Handlowy
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -215,7 +215,7 @@ Array
         (
             [channel_id] => 24
             [channel_name] => e-transfer Pocztowy24
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -223,7 +223,7 @@ Array
         (
             [channel_id] => 25
             [channel_name] => Płacę z PLUS BANK
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -231,7 +231,7 @@ Array
         (
             [channel_id] => 26
             [channel_name] => Noble Bank
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -239,7 +239,7 @@ Array
         (
             [channel_id] => 27
             [channel_name] => Inny bank
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -247,7 +247,7 @@ Array
         (
             [channel_id] => 28
             [channel_name] => Karty SixPay
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 
@@ -255,7 +255,7 @@ Array
         (
             [channel_id] => 29
             [channel_name] => Sofort
-            [commission_rate] => 1.10
+            [commission_rate] => 1.90
             [commission_const] => 0.00
         )
 

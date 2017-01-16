@@ -2642,7 +2642,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 
 <h3 id="danie-http">Żądanie HTTP</h3>
 
-<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/payouts</code></p>
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/payouts</code></p>
 
 <h3 id="nag-wki-dania">Nagłówki żądania</h3>
 
@@ -2767,7 +2767,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 
 <h3 id="danie-http">Żądanie HTTP</h3>
 
-<p><code class="prettyprint">GET https://api.monetivo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/payouts/&lt;PAYOUT_ID&gt;</code></p>
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/payouts/&lt;PAYOUT_ID&gt;</code></p>
 
 <h3 id="parametry-url-dania">Parametry URL żądania</h3>
 
@@ -2779,12 +2779,6 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 <th>Opis</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>ACCOUNT_ID</td>
-<td>-</td>
-<td>tak</td>
-<td>identyfikator rachunku w systemie Monetivo</td>
-</tr>
 <tr>
 <td>PAYOUT_ID</td>
 <td>-</td>
@@ -3130,7 +3124,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 1
             [channel_name] =&gt; Blik
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3138,7 +3132,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 2
             [channel_name] =&gt; mTransfer
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3146,7 +3140,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 3
             [channel_name] =&gt; Płać z ING
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3154,7 +3148,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 4
             [channel_name] =&gt; Pekao24Przelew
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3162,7 +3156,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 5
             [channel_name] =&gt; Przelew24 BZWBK
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3170,7 +3164,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 6
             [channel_name] =&gt; Płacę z Alior Bankiem
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3178,7 +3172,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 7
             [channel_name] =&gt; Płacę z IPKO
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3186,7 +3180,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 8
             [channel_name] =&gt; Płacę z Inteligo
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3194,7 +3188,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 9
             [channel_name] =&gt; Millennium Bank PBL
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3202,7 +3196,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 10
             [channel_name] =&gt; CA przelew online
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3210,7 +3204,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 11
             [channel_name] =&gt; T-Mobile Usługi Bankowe
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3218,7 +3212,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 12
             [channel_name] =&gt; Deutsche Bank
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3226,7 +3220,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 13
             [channel_name] =&gt; BPH Przelew
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3234,7 +3228,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 14
             [channel_name] =&gt; BGŻ BNP Paribas
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3242,7 +3236,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 15
             [channel_name] =&gt; Eurobank - płatność online
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3250,7 +3244,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 16
             [channel_name] =&gt; PBS PBL
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3258,7 +3252,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 17
             [channel_name] =&gt; r-Przelew
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3266,7 +3260,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 18
             [channel_name] =&gt; Toyota Bank Pay Way
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3274,7 +3268,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 19
             [channel_name] =&gt; BSWSCHOWA PBL
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3282,7 +3276,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 20
             [channel_name] =&gt; Płać z BOŚ Bank
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3290,7 +3284,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 21
             [channel_name] =&gt; Getin Bank
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3298,7 +3292,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 22
             [channel_name] =&gt; Płacę z Orange
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3306,7 +3300,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 23
             [channel_name] =&gt; Płacę z Citi Handlowy
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3314,7 +3308,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 24
             [channel_name] =&gt; e-transfer Pocztowy24
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3322,7 +3316,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 25
             [channel_name] =&gt; Płacę z PLUS BANK
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3330,7 +3324,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 26
             [channel_name] =&gt; Noble Bank
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3338,7 +3332,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 27
             [channel_name] =&gt; Inny bank
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3346,7 +3340,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 28
             [channel_name] =&gt; Karty SixPay
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
@@ -3354,7 +3348,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
         (
             [channel_id] =&gt; 29
             [channel_name] =&gt; Sofort
-            [commission_rate] =&gt; 1.10
+            [commission_rate] =&gt; 1.90
             [commission_const] =&gt; 0.00
         )
 
