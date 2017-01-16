@@ -175,7 +175,7 @@ Array
     [account_name] => Default PLN
     [account_address] => Botaniczna 8, Poznan
     [amount] => 1000.00
-    [status] => 60102010260000042270201111
+    [status] => 2
     [status_history] => Array (
 
       )
