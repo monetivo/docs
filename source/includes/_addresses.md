@@ -33,7 +33,7 @@ Array
     [phone] => +48123456789
     [street] => ul. Botaniczna
     [country] => POL
-    [companyname] => Fundacja Polak Pomaga
+    [companyname] => Monetivo
     [httpCode] => 200
 )
 ```
@@ -80,7 +80,7 @@ Array
     [phone] => +48123456789
     [street] => ul. Botaniczna
     [country] => POL
-    [companyname] => Fundacja Polak Pomaga
+    [companyname] => Monetivo
     [httpCode] => 200
 )
 ```

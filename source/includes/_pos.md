@@ -35,13 +35,13 @@ Array
             [0] => Array
                 (
                     [pos_id] => 1
-                    [name] => Some Merchant, Inc.
-                    [url] => https://example.com
+                    [name] => Monetivo
+                    [url] => https://monetivo.com
                     [merchant_id] => 1
                     [contact_user] => Array
                         (
                             [name] => John
-                            [email] => contact@example.com
+                            [email] => hello@monetivo.com
                             [phone] => +48123456789
                             [title] => Mr
                             [surname] => Doe
@@ -50,7 +50,7 @@ Array
                     [enabled] => 1
                     [parameters] => Array
                         (
-                            [url_notify] => https://example.com/notify
+                            [url_notify] => https://monetivo.com/notify
                         )
 
                     [created_at] => 2016-12-09T12:24:15+0000
@@ -126,13 +126,13 @@ $transaction = $api->pos()->details($identifier);
 Array
 (
     [pos_id] => 1
-    [name] => Some Merchant, Inc.
-    [url] => https://example.com
+    [name] => Monetivo
+    [url] => https://monetivo.com
     [merchant_id] => 1
     [contact_user] => Array
         (
             [name] => John
-            [email] => contact@example.com
+            [email] => hello@monetivo.com
             [phone] => +48123456789
             [title] => Mr
             [surname] => Doe
@@ -141,7 +141,7 @@ Array
     [enabled] => 1
     [parameters] => Array
         (
-            [url_notify] => https://example.com/notify
+            [url_notify] => https://monetivo.com/notify
         )
 
     [created_at] => 2016-12-09T12:24:15+0000

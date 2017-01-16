@@ -80,7 +80,7 @@ Array
 (
     [merchant_account_id] => 1
     [account_number] => 60102010260000042270201111
-    [name] => Jan Kowalski
+    [name] => Monetivo
     [address] => Botaniczna 8
     [description] => rachunek podstawowy
     [verified_at] =>
