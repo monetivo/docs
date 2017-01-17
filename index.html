@@ -1750,6 +1750,120 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 
           <h1 id="rachunki">Rachunki</h1>
 
+<h2 id="tworzenie-rachunku">Tworzenie rachunku</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+ <span class="nv">$params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+             <span class="s1">'currency'</span> <span class="o">=&gt;</span> <span class="s1">'PLN'</span><span class="p">,</span>
+             <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Rachunek testowy'</span>
+         <span class="p">);</span>
+ <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [account_id] =&gt; 2
+    [currency] =&gt; PLN
+    [balance] =&gt; 0.00
+    [name] =&gt; Rachunek testowy
+    [created_at] =&gt; 2016-12-09T12:24:15+0000
+    [updated_at] =&gt; 2017-01-03T15:18:41+0000
+    [httpCode] =&gt; 200
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/accounts</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>currency</td>
+<td>-</td>
+<td>tak</td>
+<td>waluta rachunku</td>
+</tr>
+<tr>
+<td>name</td>
+<td>-</td>
+<td>nie</td>
+<td>nazwa rachunku</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>account_id</td>
+<td>identyfikator rachunku</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>saldo na rachunku</td>
+</tr>
+<tr>
+<td>name</td>
+<td>nazwa rachunku</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia rachunku</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data aktualizacji rachunku</td>
+</tr>
+</tbody></table>
+
 <h2 id="lista-rachunk-w">Lista rachunków</h2>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
@@ -2681,7 +2795,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 <tr>
 <td>ACCOUNT_ID</td>
 <td>-</td>
-<td>tak</td>
+<td>nie</td>
 <td>identyfikator rachunku w systemie Monetivo</td>
 </tr>
 </tbody></table>

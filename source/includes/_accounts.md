@@ -1,5 +1,64 @@
 # Rachunki
 
+## Tworzenie rachunku
+
+```php
+<?php
+
+// autentykacja...
+
+ $params = array(
+             'currency' => 'PLN',
+             'name' => 'Rachunek testowy'
+         );
+ $transaction = $api->accounts()->create($params);
+
+```
+
+> Przykładowy zwrócony wynik:
+
+```php
+Array
+(
+    [account_id] => 2
+    [currency] => PLN
+    [balance] => 0.00
+    [name] => Rachunek testowy
+    [created_at] => 2016-12-09T12:24:15+0000
+    [updated_at] => 2017-01-03T15:18:41+0000
+    [httpCode] => 200
+)
+```
+
+### Żądanie HTTP
+
+`POST https://api.monetivo.com/v1/accounts`
+
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | --- |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
+
+### Parametry żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+currency | - | tak | waluta rachunku
+name | - | nie | nazwa rachunku
+
+### Odpowiedź
+
+Klucz | Opis |
+----- | ---- |
+account_id | identyfikator rachunku |
+currency | waluta |
+balance | saldo na rachunku
+name | nazwa rachunku
+created_at | data utworzenia rachunku
+updated_at | data aktualizacji rachunku
+
 ## Lista rachunków
 
 ```php

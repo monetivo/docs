@@ -136,7 +136,7 @@ X-Auth-Token | - | tak | token użytkownika
 
 Parametr | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
-ACCOUNT_ID | - | tak | identyfikator rachunku w systemie Monetivo |
+ACCOUNT_ID | - | nie | identyfikator rachunku w systemie Monetivo |
 
 ### Odpowiedź
 
