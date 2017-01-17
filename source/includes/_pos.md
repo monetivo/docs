@@ -151,13 +151,13 @@ Array
 
 ### Żądanie HTTP
 
-`GET https://api.monetivo.com/v1/pos/<ID>`
+`GET https://api.monetivo.com/v1/pos/<POS_ID>`
 
 ### Parametry URL żądania
 
 Parametr | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
-ID | - | tak | identyfikator POS |
+POS_ID | - | tak | identyfikator POS |
 
 ### Nagłówki żądania
 
@@ -183,3 +183,212 @@ enabled | POS aktywny
 parameters[url_notify] | adres URL do wysyłania powiadomień o zmianie statusu transakcji
 created_at | data utworzenia
 updated_at | data ostatniej edycji
+
+## Listowanie rachunków przypisanych do POS
+
+```php
+<?php
+
+// autentykacja...
+
+// pobieranie rachunków przypisanych do POS o identyfikatorze 1
+$identifier = '1';
+$transaction = $api->pos()->accounts($identifier);
+
+```
+
+> Przykładowy zwrócony wynik:
+
+```php
+Array
+(
+    [total] => 1
+    [per_page] => 15
+    [current_page] => 1
+    [last_page] => 1
+    [next_page_url] => 
+    [prev_page_url] => 
+    [from] => 1
+    [to] => 1
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [account_id] => 1
+                    [pos_id] => 1
+                    [currency] => PLN
+                    [created_at] => 2016-12-09T13:24:15+0100
+                )
+
+        )
+
+    [httpCode] => 200
+)
+```
+
+### Żądanie HTTP
+
+`GET https://api.monetivo.com/v1/pos/<POS_ID>/accounts`
+
+### Parametry URL żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+POS_ID | - | tak | identyfikator POS |
+
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
+
+### Odpowiedź
+
+Klucz | Opis |
+----- | ---- |
+total | liczba wyników (rachunków) |
+per_page | ilość wyników na stronę |
+current_page | bieżąca strona z wynikami
+last_page | numer ostatniej strony z wynikami
+next_page_url | adres URL do pobrania następnej strony z wynikami
+prev_page_url | adres URL do pobrania poprzedniej strony z wynikami
+from | wyniki od
+to | wyniki do
+data | tablica zawierająca wyniki
+
+## Przypisanie rachunku do POS
+
+```php
+<?php
+
+// autentykacja...
+
+// przypisanie rachunku o identyfikatorze 4 do POS o identyfikatorze 1
+$pos_identifier = '1';
+$account_identifier = '4';
+$transaction = $api->pos()->bindAccount($pos_identifier, $account_identifier);
+
+```
+
+> Przykładowy zwrócony wynik:
+
+```php
+Array
+(
+    [total] => 1
+    [per_page] => 15
+    [current_page] => 1
+    [last_page] => 1
+    [next_page_url] => 
+    [prev_page_url] => 
+    [from] => 1
+    [to] => 1
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [account_id] => 4
+                    [pos_id] => 1
+                    [currency] => PLN
+                    [created_at] => 2016-12-09T13:24:15+0100
+                )
+
+        )
+
+    [httpCode] => 200
+)
+```
+
+### Żądanie HTTP
+
+`POST https://api.monetivo.com/v1/pos/<POS_ID>/accounts/<ACCOUNT_ID>`
+
+### Parametry URL żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+POS_ID | - | tak | identyfikator POS |
+ACCOUNT_ID | - | tak | identyfikator rachunku |
+
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
+
+### Odpowiedź
+
+Klucz | Opis |
+----- | ---- |
+total | liczba wyników (rachunków) |
+per_page | ilość wyników na stronę |
+current_page | bieżąca strona z wynikami
+last_page | numer ostatniej strony z wynikami
+next_page_url | adres URL do pobrania następnej strony z wynikami
+prev_page_url | adres URL do pobrania poprzedniej strony z wynikami
+from | wyniki od
+to | wyniki do
+data | tablica zawierająca wyniki
+
+## Usunięcie przypisania rachunku do POS
+
+```php
+<?php
+
+// autentykacja...
+
+// przypisanie rachunku o identyfikatorze 4 do POS o identyfikatorze 1
+$pos_identifier = '1';
+$account_identifier = '4';
+$transaction = $api->pos()->unbindAccount($pos_identifier, $account_identifier);
+
+```
+
+> Przykładowy zwrócony wynik:
+
+```php
+Array
+(
+    [total] => 1
+    [per_page] => 15
+    [current_page] => 1
+    [last_page] => 1
+    [next_page_url] => 
+    [prev_page_url] => 
+    [from] => 1
+    [to] => 1
+    [data] => Array
+        (
+            [0] => Array
+                (
+                    [account_id] => 4
+                    [pos_id] => 1
+                    [currency] => PLN
+                    [created_at] => 2016-12-09T13:24:15+0100
+                )
+
+        )
+
+    [httpCode] => 200
+)
+```
+
+### Żądanie HTTP
+
+`DELETE https://api.monetivo.com/v1/pos/<POS_ID>/accounts/<ACCOUNT_ID>`
+
+### Parametry URL żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+POS_ID | - | tak | identyfikator POS |
+ACCOUNT_ID | - | tak | identyfikator rachunku |
+
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
