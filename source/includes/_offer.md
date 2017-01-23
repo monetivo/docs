@@ -17,7 +17,7 @@ services | oferta dotycząca usług (prowizje za poszczególne usługi udostępn
 
 // pobieranie listy ofert dla udostępnionych usług
 
-$offers = $api->offer()->list(\Monetivo\Api\Offer::TYPE_PAYMENTS);
+$offers = $api->offer()->listing(\Monetivo\Api\Offer::TYPE_PAYMENTS);
 
 
 ```

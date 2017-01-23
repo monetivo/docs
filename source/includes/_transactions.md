@@ -130,7 +130,7 @@ channel_id | kanał płatności. Wartość ```null``` przy utworzeniu transakcji
 
 // pobieranie listy zapłaconych transakcji od dnia 2016-12-01
 
-$transactions = $api->transactions()->list(['date_from' => '2016-12-01', 'status' => \Monetivo\Api\Transactions::TRAN_STATUS_PAID]);
+$transactions = $api->transactions()->listing(['date_from' => '2016-12-01', 'status' => \Monetivo\Api\Transactions::TRAN_STATUS_PAID]);
 
 
 ```

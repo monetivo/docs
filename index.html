@@ -546,7 +546,7 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 </span>
 <span class="c1">// pobieranie listy zapłaconych transakcji od dnia 2016-12-01
 </span>
-<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">([</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">,</span> <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="nx">\Monetivo\Api\Transactions</span><span class="o">::</span><span class="na">TRAN_STATUS_PAID</span><span class="p">]);</span>
+<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">([</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">,</span> <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="nx">\Monetivo\Api\Transactions</span><span class="o">::</span><span class="na">TRAN_STATUS_PAID</span><span class="p">]);</span>
 
 
 </code></pre>
@@ -1413,7 +1413,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </span>
 <span class="c1">// pobieranie listy POS
 </span>
-<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
 
 </code></pre>
@@ -1642,7 +1642,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 
 <h3 id="danie-http">Żądanie HTTP</h3>
 
-<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos/&lt;ID&gt;</code></p>
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos/&lt;POS_ID&gt;</code></p>
 
 <h3 id="parametry-url-dania">Parametry URL żądania</h3>
 
@@ -1655,7 +1655,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
+<td>POS_ID</td>
 <td>-</td>
 <td>tak</td>
 <td>identyfikator POS</td>
@@ -1790,7 +1790,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 
 <h3 id="danie-http">Żądanie HTTP</h3>
 
-<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos/&lt;ID&gt;/accounts</code></p>
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/pos/&lt;POS_ID&gt;/accounts</code></p>
 
 <h3 id="parametry-url-dania">Parametry URL żądania</h3>
 
@@ -1803,7 +1803,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
+<td>POS_ID</td>
 <td>-</td>
 <td>tak</td>
 <td>identyfikator POS</td>
@@ -2235,7 +2235,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </span>
 <span class="c1">// pobieranie listy rachunków
 </span>
-<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
 
 </code></pre>
@@ -2750,7 +2750,7 @@ Typy obiektów wyszczególnione w raporcie <code>object_type</code> są tożsame
 </span>
 <span class="c1">// pobieranie listy rachunków bankowych
 </span>
-<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
 
 </code></pre>
@@ -3092,7 +3092,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </span>
 <span class="c1">// pobieranie listy wypłat
 </span>
-<span class="nv">$payouts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">();</span>
+<span class="nv">$payouts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
 
 </code></pre>
@@ -3366,7 +3366,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </span>
 <span class="c1">// pobieranie adresu do korespondencji
 </span>
-<span class="nv">$addresses</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">);</span>
+<span class="nv">$addresses</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">);</span>
 
 
 </code></pre>
@@ -3588,7 +3588,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </span>
 <span class="c1">// pobieranie listy ofert dla udostępnionych usług
 </span>
-<span class="nv">$offers</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">list</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_PAYMENTS</span><span class="p">);</span>
+<span class="nv">$offers</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_PAYMENTS</span><span class="p">);</span>
 
 
 </code></pre>

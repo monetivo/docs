@@ -95,7 +95,7 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 
 // pobieranie listy wypłat
 
-$payouts = $api->payouts()->list();
+$payouts = $api->payouts()->listing();
 
 
 ```

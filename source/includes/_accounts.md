@@ -68,7 +68,7 @@ updated_at | data aktualizacji rachunku
 
 // pobieranie listy rachunków
 
-$accounts = $api->accounts()->list();
+$accounts = $api->accounts()->listing();
 
 
 ```

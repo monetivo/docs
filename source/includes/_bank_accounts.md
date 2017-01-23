@@ -9,7 +9,7 @@
 
 // pobieranie listy rachunków bankowych
 
-$accounts = $api->bankAccounts()->list();
+$accounts = $api->bankAccounts()->listing();
 
 
 ```

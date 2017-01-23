@@ -17,7 +17,7 @@ correspondence | adres korespondencyjny |
 
 // pobieranie adresu do korespondencji
 
-$addresses = $api->addresses()->list(\Monetivo\Api\Addresses::TYPE_CORRESPONDENCE);
+$addresses = $api->addresses()->listing(\Monetivo\Api\Addresses::TYPE_CORRESPONDENCE);
 
 
 ```

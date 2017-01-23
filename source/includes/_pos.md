@@ -12,7 +12,7 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 
 // pobieranie listy POS
 
-$transactions = $api->pos()->list();
+$transactions = $api->pos()->listing();
 
 
 ```
