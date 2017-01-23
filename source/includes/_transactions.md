@@ -392,6 +392,10 @@ Zmiana statusu transakcji powoduje  wysłanie przez system Monetivo powiadomieni
 Adres <code>notify_url</code> zazwyczaj jest zdefiniowany przy POS. Istnieje możliwość nadpisania tego adresu przy tworzeniu transakcji tylko i wyłącznie na potrzeby tej transakcji.
 </aside>
 
+<aside class="notice">
+Przy odbiorze powiadomienia Twój serwer powinien zwrócić kod HTTP 200 OK. Jeżeli biblioteka się nie autoryzuje lub wystąpi inny błąd np. po stronie realizacji zamówienia, aplikacja musi zwrócić błąd http (np. 400) jeżeli chce otrzymać następne powiadomienie. W takim przypadku serwer Monetivo będzie ponawiać wysyłkę powiadomień co jakiś czas do momentu, gdy zwrócony zostanie status 200 OK.
+</aside>
+
 Po odebraniu powiadomienia, w przypadku gdy transakcja jest poprawna (opłacona, a następnie zaakceptowana), możesz przystąpić do dalszych czynności związanych z realizacją płatności po Twojej stronie.
 
 
