@@ -15,6 +15,10 @@ Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne
 Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://getcomposer.org/doc/00-intro.md">Panelu Merchanta</a> w systemie Monetivo
 </aside>
 
+<aside class="notice">
+Dane dostępowe używane w bibliotekach są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co zabezpiecza dostęp do Panelu Merchanta.
+</aside>
+
 ### Żądanie HTTP
 
 `POST https://api.monetivo.com/v1/auth/login`
