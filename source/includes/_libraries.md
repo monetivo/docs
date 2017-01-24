@@ -20,7 +20,7 @@ Nie musisz wykorzystywać udostępnianych przez nas bibliotek. Jest to jedynie u
 `composer require monetivoapi/monetivo`
 jeśli Composer nie został zainstalowany globalnie:
 
-`php composer.phar require monetivoapi/monetivo`
+`php composer.phar require monetivo/monetivo-php`
 
 2. Niestandardowa - przy użyciu archiwum z biblioteką:
   - rozpakowanie archiwum do dowolnego folderu,
