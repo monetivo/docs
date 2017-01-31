@@ -131,6 +131,15 @@ Bilbioteka umożliwia również wykonanie innych operacji na koncie merchanta sy
 
 <p>Możesz korzystać z Monetivo API nie używając bibliotek. W takim przypadku samodzielnie wysyłasz zapytania HTTP do naszego REST API.</p>
 
+<p>System Monetivo składa się z dwóch odizolowanych od siebie środowisk:</p>
+
+<ul>
+<li>testowego, dostępnego pod adresem <code class="prettyprint">https://api.monetivo.io</code>,</li>
+<li>produkcyjnego, dostępnego pod adresem <code class="prettyprint">https://api.monetivo.com</code>.</li>
+</ul>
+
+<p>Przy rejestracji otrzymujesz dostęp do środowiska testowego. Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.</p>
+
           <h1 id="biblioteki">Biblioteki</h1>
 
 <h2 id="php">PHP</h2>
@@ -184,17 +193,18 @@ Zobacz sekcję <a href="https://getcomposer.org/doc/00-intro.md">Getting Started
 <li>token aplikacji (uzyskiwany po rejestracji).</li>
 </ul>
 
-<p>Po pomyślnej autentykacji zostanie zwrócony token, który jest niezbędny do wykonywania zapytań do API. Nasza biblioteka automatycznie dołączy token do każdego zapytania w postaci nagłówka.</p>
-
-<p>Każdy błąd, zarówno po stronie klienta API jak i systemu Monetivo, sygnalizowany jest wyrzuceniem wyjątku <code class="prettyprint">MonetivoException</code>
-Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne informacje.</p>
+<p>Po pomyślnej autentykacji zostanie zwrócony token, który jest niezbędny do wykonywania zapytań do API. Nasza biblioteka automatycznie dołączy token do każdego zapytania w postaci nagłówka. Każdy błąd, zarówno po stronie klienta API jak i systemu Monetivo, sygnalizowany jest wyrzuceniem wyjątku <code class="prettyprint">MonetivoException</code>. Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne informacje.</p>
 
 <aside class="notice">
-Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://getcomposer.org/doc/00-intro.md">Panelu Merchanta</a> w systemie Monetivo
+Zwróć uwagę, że token aplikacji zawiera prefix <code>test_</code> dla środowiska testowego albo <code>prod_</code> dla środowiska produkcyjnego. Prefiksy te pozwolą Ci łatwo odróżnić do jakiego środowiska został przypisany zestaw danych (login, hasło, token aplikacji). Zestaw danych dla środowiska testowego nie może być użyty w środowisku produkcyjnym i odwrotnie. Nasze oficjalne biblioteki oraz wtyczki integracji automatycznie ustawiają docelowe środowisko na podstawie wprowadzonego tokenu.
 </aside>
 
 <aside class="notice">
-Dane dostępowe używane w bibliotekach są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co zabezpiecza dostęp do Panelu Merchanta.
+Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://merchant.monetivo.com">Panelu Merchanta</a> w systemie Monetivo
+</aside>
+
+<aside class="notice">
+Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta.
 </aside>
 
 <h3 id="danie-http">Żądanie HTTP</h3>

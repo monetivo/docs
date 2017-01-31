@@ -6,17 +6,18 @@ Dostęp do API wymaga autentykacji (zalogowania). Do autentykacji potrzebne są:
 - hasło (podawane podczas rejestracji),
 - token aplikacji (uzyskiwany po rejestracji).
 
-Po pomyślnej autentykacji zostanie zwrócony token, który jest niezbędny do wykonywania zapytań do API. Nasza biblioteka automatycznie dołączy token do każdego zapytania w postaci nagłówka.
-
-Każdy błąd, zarówno po stronie klienta API jak i systemu Monetivo, sygnalizowany jest wyrzuceniem wyjątku `MonetivoException`
-Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne informacje.
+Po pomyślnej autentykacji zostanie zwrócony token, który jest niezbędny do wykonywania zapytań do API. Nasza biblioteka automatycznie dołączy token do każdego zapytania w postaci nagłówka. Każdy błąd, zarówno po stronie klienta API jak i systemu Monetivo, sygnalizowany jest wyrzuceniem wyjątku `MonetivoException`. Instancja wyjątku w większości przypadków zawiera także dodatkowe przydatne informacje.
 
 <aside class="notice">
-Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://getcomposer.org/doc/00-intro.md">Panelu Merchanta</a> w systemie Monetivo
+Zwróć uwagę, że token aplikacji zawiera prefix <code>test_</code> dla środowiska testowego albo <code>prod_</code> dla środowiska produkcyjnego. Prefiksy te pozwolą Ci łatwo odróżnić do jakiego środowiska został przypisany zestaw danych (login, hasło, token aplikacji). Zestaw danych dla środowiska testowego nie może być użyty w środowisku produkcyjnym i odwrotnie. Nasze oficjalne biblioteki oraz wtyczki integracji automatycznie ustawiają docelowe środowisko na podstawie wprowadzonego tokenu.
 </aside>
 
 <aside class="notice">
-Dane dostępowe używane w bibliotekach są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co zabezpiecza dostęp do Panelu Merchanta.
+Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://merchant.monetivo.com">Panelu Merchanta</a> w systemie Monetivo
+</aside>
+
+<aside class="notice">
+Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta.
 </aside>
 
 ### Żądanie HTTP

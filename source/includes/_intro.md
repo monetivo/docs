@@ -10,3 +10,9 @@ Bilbioteka umożliwia również wykonanie innych operacji na koncie merchanta sy
 
 Możesz korzystać z Monetivo API nie używając bibliotek. W takim przypadku samodzielnie wysyłasz zapytania HTTP do naszego REST API.
 
+System Monetivo składa się z dwóch odizolowanych od siebie środowisk:
+
+- testowego, dostępnego pod adresem `https://api.monetivo.io`,
+- produkcyjnego, dostępnego pod adresem `https://api.monetivo.com`.
+
+Przy rejestracji otrzymujesz dostęp do środowiska testowego. Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.
