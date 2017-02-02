@@ -313,7 +313,6 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 <span class="c1">// autentykacja...
 </span>
  <span class="nv">$params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-             <span class="s1">'pos_id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
              <span class="s1">'order_data'</span> <span class="o">=&gt;</span> <span class="p">[</span>
                  <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="s1">'Christmas gifts'</span><span class="p">,</span>
                  <span class="s1">'order_id'</span> <span class="o">=&gt;</span> <span class="s1">'12345'</span>
@@ -405,12 +404,6 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 </tr>
 </thead><tbody>
 <tr>
-<td>pos_id</td>
-<td>-</td>
-<td>tak</td>
-<td>identyfikator POS</td>
-</tr>
-<tr>
 <td>order_data[description]</td>
 <td>-</td>
 <td>tak</td>
@@ -463,6 +456,12 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 <td>taki jak dla POS</td>
 <td>nie</td>
 <td>adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo</td>
+</tr>
+<tr>
+<td>pos_id</td>
+<td>-</td>
+<td>nie</td>
+<td>identyfikator POS; wymagany dla użytkownika innego niż użytkownik integracji</td>
 </tr>
 </tbody></table>
 

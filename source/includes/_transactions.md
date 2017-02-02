@@ -8,7 +8,6 @@
 // autentykacja...
 
  $params = array(
-             'pos_id' => 1,
              'order_data' => [
                  'description' => 'Christmas gifts',
                  'order_id' => '12345'
@@ -76,7 +75,6 @@ X-Auth-Token | - | tak | token użytkownika
 
 Parametr | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
-pos_id | - | tak | identyfikator POS |
 order_data[description] | - | tak | Opis zamówienia |
 order_data[order_id] | - | tak | Dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta) |
 buyer[name] | - | tak | nazwa kupującego|
@@ -86,6 +84,7 @@ currency | - | tak | waluta, dowolna spośród: PLN
 amount | - | tak | kwota zamówienia
 return_url | - | tak | adres powrotny (URL) do przekierowania
 notify_url | taki jak dla POS | nie | adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo
+pos_id | - | nie | identyfikator POS; wymagany dla użytkownika innego niż użytkownik integracji |
 
 <aside class="notice">
 Dostępne wartości dla parametru <code>language</code> to: <code>pl</code>, <code>en</code>. Wybór języka determinuje pewne zachowania systemu, np. przy wyborze języka <code>en</code>
