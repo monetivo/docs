@@ -5,7 +5,8 @@ language_tabs:
   - php
 
 toc_footers:
-  - <a href='https://github.com/monetivo'>GitHub Monetivo</a>
+  - <a href='https://github.com/monetivo' target='_blank'>GitHub</a>
+  - <a href='https://status.monetivo.com/' target='_blank'>Status page</a>
 
 includes:
   - intro
