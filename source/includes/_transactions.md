@@ -227,6 +227,13 @@ Array
 
 `GET https://api.monetivo.com/v1/transactions`
 
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | --- |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
+
 ### Parametry żądania
 
 Parametr | Domyślnie | Wymagany | Opis |

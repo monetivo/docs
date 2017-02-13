@@ -657,6 +657,30 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 
 <p><code class="prettyprint">GET https://api.monetivo.com/v1/transactions</code></p>
 
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
 <h3 id="parametry-dania">Parametry żądania</h3>
 
 <table><thead>
@@ -1509,6 +1533,58 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tr>
 </tbody></table>
 
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>sort</td>
+<td>asc</td>
+<td>nie</td>
+<td>kolejność sortowania: asc (od najstarszego), desc (od najnowszego)</td>
+</tr>
+<tr>
+<td>orderby</td>
+<td>-</td>
+<td>nie</td>
+<td>kolumna sortowania, patrz niżej</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>-</td>
+<td>nie</td>
+<td>ilość wyników na stronę</td>
+</tr>
+</tbody></table>
+
+<h3 id="kolumny-sortowania">Kolumny sortowania</h3>
+
+<table><thead>
+<tr>
+<th>Kolumna</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>updated_at</td>
+<td>data zmiany statusu</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia</td>
+</tr>
+<tr>
+<td>pos_id</td>
+<td>sortowanie po identyfikatorze POS</td>
+</tr>
+</tbody></table>
+
 <h3 id="odpowied">Odpowiedź</h3>
 
 <table><thead>
@@ -1785,8 +1861,8 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
     [per_page] =&gt; 15
     [current_page] =&gt; 1
     [last_page] =&gt; 1
-    [next_page_url] =&gt; 
-    [prev_page_url] =&gt; 
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
     [from] =&gt; 1
     [to] =&gt; 1
     [data] =&gt; Array
@@ -1918,8 +1994,8 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
     [per_page] =&gt; 15
     [current_page] =&gt; 1
     [last_page] =&gt; 1
-    [next_page_url] =&gt; 
-    [prev_page_url] =&gt; 
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
     [from] =&gt; 1
     [to] =&gt; 1
     [data] =&gt; Array
@@ -2057,8 +2133,8 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
     [per_page] =&gt; 15
     [current_page] =&gt; 1
     [last_page] =&gt; 1
-    [next_page_url] =&gt; 
-    [prev_page_url] =&gt; 
+    [next_page_url] =&gt;
+    [prev_page_url] =&gt;
     [from] =&gt; 1
     [to] =&gt; 1
     [data] =&gt; Array

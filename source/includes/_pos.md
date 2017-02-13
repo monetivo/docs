@@ -74,6 +74,22 @@ Nagłówek | Domyślnie | Wymagany | Opis |
 X-API-Token | - | tak | token aplikacji
 X-Auth-Token | - | tak | token użytkownika
 
+### Parametry żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+sort | asc | nie | kolejność sortowania: asc (od najstarszego), desc (od najnowszego)
+orderby | - | nie | kolumna sortowania, patrz niżej
+per_page | - | nie | ilość wyników na stronę
+
+### Kolumny sortowania
+
+Kolumna | Opis |
+------- | ----  |
+updated_at | data zmiany statusu
+created_at | data utworzenia
+pos_id | sortowanie po identyfikatorze POS
+
 ### Odpowiedź
 
 Klucz | Opis |
@@ -206,8 +222,8 @@ Array
     [per_page] => 15
     [current_page] => 1
     [last_page] => 1
-    [next_page_url] => 
-    [prev_page_url] => 
+    [next_page_url] =>
+    [prev_page_url] =>
     [from] => 1
     [to] => 1
     [data] => Array
@@ -280,8 +296,8 @@ Array
     [per_page] => 15
     [current_page] => 1
     [last_page] => 1
-    [next_page_url] => 
-    [prev_page_url] => 
+    [next_page_url] =>
+    [prev_page_url] =>
     [from] => 1
     [to] => 1
     [data] => Array
@@ -355,8 +371,8 @@ Array
     [per_page] => 15
     [current_page] => 1
     [last_page] => 1
-    [next_page_url] => 
-    [prev_page_url] => 
+    [next_page_url] =>
+    [prev_page_url] =>
     [from] => 1
     [to] => 1
     [data] => Array
