@@ -79,20 +79,19 @@ order_data[description] | - | tak | Opis zamówienia |
 order_data[order_id] | - | tak | Dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta) |
 buyer[name] | - | tak | nazwa kupującego|
 buyer[email] | - | tak | email kupującego|
-language | - | tak | język, którym posługuje się Klient
+language | - | tak | język, którym posługuje się Kupujący
 currency | - | tak | waluta, dowolna spośród: PLN
 amount | - | tak | kwota zamówienia
 return_url | - | tak | adres powrotny (URL) do przekierowania
 notify_url | taki jak dla POS | nie | adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo
-pos_id | - | nie | identyfikator POS; wymagany dla użytkownika innego niż użytkownik integracji |
 
 <aside class="notice">
 Dostępne wartości dla parametru <code>language</code> to: <code>pl</code>, <code>en</code>. Wybór języka determinuje pewne zachowania systemu, np. przy wyborze języka <code>en</code>
-Klient otrzyma wiadomość email w języku angielskim
+Kupujący otrzyma wiadomość email w języku angielskim
 </aside>
 
 <aside class="notice">
-Adres powrotny <code>return_url</code> to adres podstrony Twojej witryny, na który zostanie przekierowany Klient po dokonaniu płatności.
+Adres powrotny <code>return_url</code> to adres podstrony Twojej witryny, na który zostanie przekierowany Kupujący po dokonaniu płatności.
 </aside>
 
 <aside class="notice">
@@ -104,21 +103,22 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 Klucz | Opis |
 ----- | ---- |
 pos_id | identyfikator POS
-order_data[description] | opis zamówienia
-order_data[order_id] | dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)
+amount | kwota zamówienia
+language | język, którym posługuje się Kupujący
+currency | waluta, dowolna spośród: PLN
 buyer[name] | nazwa kupującego|
 buyer[email] | email kupującego|
-language | język, którym posługuje się Klient
-currency | waluta, dowolna spośród: PLN
-amount | - | kwota zamówienia
+order_data[description] | opis zamówienia
+order_data[order_id] | dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)
 return_url | adres powrotny do przekierowania
 status_history | historia zmian statusu
+notify_url | adres URL do powiadomienia
+partial_refunds | zwroty częściowe z transakcji (puste dla nowej transakcji)
 updated_at | data ostatniej zmiany statusu transakcji
 created_at | data utworzenia transakcji
 identifier | identyfikator transakcji
 sign | podpis transakcji
 redirect_url | adres URL, który umożliwia dokonanie płatności
-channel_id | kanał płatności. Wartość ```null``` przy utworzeniu transakcji - aktualizacja kanału następuje po dokonaniu płatności przez Klienta
 
 ## Lista transakcji
 
@@ -324,11 +324,8 @@ Array
         )
 
     [return_url] => https://example.com
+    [notify_url] =>
     [account_id] =>
-    [created_at] => 2016-12-13T10:18:06+0000
-    [updated_at] => 2016-12-13T10:18:06+0000
-    [committed_at] => 2016-12-13T10:18:08+0000
-    [channel_id] => 25
     [partial_refunds] => Array
         (
             [0] => Array
@@ -346,6 +343,10 @@ Array
                 )
 
         )
+    [channel_id] => 25
+    [created_at] => 2016-12-13T10:18:06+0000
+    [updated_at] => 2016-12-13T10:18:06+0000
+    [committed_at] => 2016-12-13T10:18:08+0000
     [httpCode] => 200
 )
 ```
@@ -372,23 +373,24 @@ X-Auth-Token | - | tak | token użytkownika
 Klucz | Opis |
 ----- | ---- |
 pos_id | identyfikator POS
+identifier | identyfikator transakcji
+currency | waluta transakcji
+amount | kwota transakcji
+status | status transakcji
+language | język, którym posługuje się Kupujący
 order_data[description] | opis zamówienia
 order_data[order_id] | dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)
 buyer[name] | nazwa kupującego|
 buyer[email] | email kupującego|
-language | język, którym posługuje się Klient
-currency | waluta, dowolna spośród: PLN
-amount | - | kwota zamówienia
-return_url | adres powrotny do przekierowania
-partial_refunds | zwroty częściowe
 status_history | historia zmian statusu
+return_url | adres powrotny URL do przekierowania
+notify_url | adres URL do wysłania powiadomienia
 account_id | identyfikator rachunku
-updated_at | data ostatniej zmiany statusu transakcji
+partial_refunds | zwroty częściowe transakcji
+channel_id | identyfikator kanału płatności użytego do dokonania płatności przez Kupującego
 created_at | data utworzenia transakcji
-committed_at | data zaksięgowania transakcji na koncie merchanta
-partial_refunds | częściowe zwroty transakcji
-identifier | identyfikator transakcji
-channel_id | identyfikator kanału płatności użytego do dokonania płatności przez Klienta
+updated_at | data ostatniej zmiany statusu transakcji
+committed_at | data zaksięgowania transakcji na koncie Merchanta
 
 ## Obsługa powiadomień o statusie
 
@@ -582,7 +584,7 @@ amount | kwota zwrotu
 transaction_identifier | identyfikator transakcji
 currency | waluta
 description | opis zwrotu
-reason | źródło zwrotu (patrz niżej)
+reason | przyczyna zwrotu (patrz niżej)
 partial | czy zwrot częściowy. Wartość ```true``` jeśli kwota zwrotu jest niższa od kwoty transakcji
 status_history | historia zmian statusu
 status | status zwrotu
@@ -592,7 +594,7 @@ identifier | identyfikator zwrotu
 account_id | identyfikator rachunku
 committed_at | data księgowania
 
-### Źródła zwrotu
+### Przyczyny zwrotu
 
 Wartość | Opis |
 ------- | ---- |

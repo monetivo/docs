@@ -432,7 +432,7 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 <td>language</td>
 <td>-</td>
 <td>tak</td>
-<td>język, którym posługuje się Klient</td>
+<td>język, którym posługuje się Kupujący</td>
 </tr>
 <tr>
 <td>currency</td>
@@ -458,21 +458,15 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 <td>nie</td>
 <td>adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo</td>
 </tr>
-<tr>
-<td>pos_id</td>
-<td>-</td>
-<td>nie</td>
-<td>identyfikator POS; wymagany dla użytkownika innego niż użytkownik integracji</td>
-</tr>
 </tbody></table>
 
 <aside class="notice">
 Dostępne wartości dla parametru <code>language</code> to: <code>pl</code>, <code>en</code>. Wybór języka determinuje pewne zachowania systemu, np. przy wyborze języka <code>en</code>
-Klient otrzyma wiadomość email w języku angielskim
+Kupujący otrzyma wiadomość email w języku angielskim
 </aside>
 
 <aside class="notice">
-Adres powrotny <code>return_url</code> to adres podstrony Twojej witryny, na który zostanie przekierowany Klient po dokonaniu płatności.
+Adres powrotny <code>return_url</code> to adres podstrony Twojej witryny, na który zostanie przekierowany Kupujący po dokonaniu płatności.
 </aside>
 
 <aside class="notice">
@@ -492,12 +486,16 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 <td>identyfikator POS</td>
 </tr>
 <tr>
-<td>order_data[description]</td>
-<td>opis zamówienia</td>
+<td>amount</td>
+<td>kwota zamówienia</td>
 </tr>
 <tr>
-<td>order_data[order_id]</td>
-<td>dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)</td>
+<td>language</td>
+<td>język, którym posługuje się Kupujący</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta, dowolna spośród: PLN</td>
 </tr>
 <tr>
 <td>buyer[name]</td>
@@ -508,16 +506,12 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 <td>email kupującego</td>
 </tr>
 <tr>
-<td>language</td>
-<td>język, którym posługuje się Klient</td>
+<td>order_data[description]</td>
+<td>opis zamówienia</td>
 </tr>
 <tr>
-<td>currency</td>
-<td>waluta, dowolna spośród: PLN</td>
-</tr>
-<tr>
-<td>amount</td>
-<td>-</td>
+<td>order_data[order_id]</td>
+<td>dodatkowy identyfikator zamówienia (dowolna treść zdefiniowana przez merchanta)</td>
 </tr>
 <tr>
 <td>return_url</td>
@@ -526,6 +520,14 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 <tr>
 <td>status_history</td>
 <td>historia zmian statusu</td>
+</tr>
+<tr>
+<td>notify_url</td>
+<td>adres URL do powiadomienia</td>
+</tr>
+<tr>
+<td>partial_refunds</td>
+<td>zwroty częściowe z transakcji (puste dla nowej transakcji)</td>
 </tr>
 <tr>
 <td>updated_at</td>
@@ -546,10 +548,6 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 <tr>
 <td>redirect_url</td>
 <td>adres URL, który umożliwia dokonanie płatności</td>
-</tr>
-<tr>
-<td>channel_id</td>
-<td>kanał płatności. Wartość <code class="prettyprint">null</code> przy utworzeniu transakcji - aktualizacja kanału następuje po dokonaniu płatności przez Klienta</td>
 </tr>
 </tbody></table>
 
@@ -896,11 +894,8 @@ Array
         )
 
     [return_url] =&gt; https://example.com
+    [notify_url] =&gt;
     [account_id] =&gt;
-    [created_at] =&gt; 2016-12-13T10:18:06+0000
-    [updated_at] =&gt; 2016-12-13T10:18:06+0000
-    [committed_at] =&gt; 2016-12-13T10:18:08+0000
-    [channel_id] =&gt; 25
     [partial_refunds] =&gt; Array
         (
             [0] =&gt; Array
@@ -918,6 +913,10 @@ Array
                 )
 
         )
+    [channel_id] =&gt; 25
+    [created_at] =&gt; 2016-12-13T10:18:06+0000
+    [updated_at] =&gt; 2016-12-13T10:18:06+0000
+    [committed_at] =&gt; 2016-12-13T10:18:08+0000
     [httpCode] =&gt; 200
 )
 </code></pre>
@@ -981,6 +980,26 @@ Array
 <td>identyfikator POS</td>
 </tr>
 <tr>
+<td>identifier</td>
+<td>identyfikator transakcji</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>waluta transakcji</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>kwota transakcji</td>
+</tr>
+<tr>
+<td>status</td>
+<td>status transakcji</td>
+</tr>
+<tr>
+<td>language</td>
+<td>język, którym posługuje się Kupujący</td>
+</tr>
+<tr>
 <td>order_data[description]</td>
 <td>opis zamówienia</td>
 </tr>
@@ -997,56 +1016,40 @@ Array
 <td>email kupującego</td>
 </tr>
 <tr>
-<td>language</td>
-<td>język, którym posługuje się Klient</td>
-</tr>
-<tr>
-<td>currency</td>
-<td>waluta, dowolna spośród: PLN</td>
-</tr>
-<tr>
-<td>amount</td>
-<td>-</td>
+<td>status_history</td>
+<td>historia zmian statusu</td>
 </tr>
 <tr>
 <td>return_url</td>
-<td>adres powrotny do przekierowania</td>
+<td>adres powrotny URL do przekierowania</td>
 </tr>
 <tr>
-<td>partial_refunds</td>
-<td>zwroty częściowe</td>
-</tr>
-<tr>
-<td>status_history</td>
-<td>historia zmian statusu</td>
+<td>notify_url</td>
+<td>adres URL do wysłania powiadomienia</td>
 </tr>
 <tr>
 <td>account_id</td>
 <td>identyfikator rachunku</td>
 </tr>
 <tr>
-<td>updated_at</td>
-<td>data ostatniej zmiany statusu transakcji</td>
+<td>partial_refunds</td>
+<td>zwroty częściowe transakcji</td>
+</tr>
+<tr>
+<td>channel_id</td>
+<td>identyfikator kanału płatności użytego do dokonania płatności przez Kupującego</td>
 </tr>
 <tr>
 <td>created_at</td>
 <td>data utworzenia transakcji</td>
 </tr>
 <tr>
+<td>updated_at</td>
+<td>data ostatniej zmiany statusu transakcji</td>
+</tr>
+<tr>
 <td>committed_at</td>
-<td>data zaksięgowania transakcji na koncie merchanta</td>
-</tr>
-<tr>
-<td>partial_refunds</td>
-<td>częściowe zwroty transakcji</td>
-</tr>
-<tr>
-<td>identifier</td>
-<td>identyfikator transakcji</td>
-</tr>
-<tr>
-<td>channel_id</td>
-<td>identyfikator kanału płatności użytego do dokonania płatności przez Klienta</td>
+<td>data zaksięgowania transakcji na koncie Merchanta</td>
 </tr>
 </tbody></table>
 
@@ -1359,7 +1362,7 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 </tr>
 <tr>
 <td>reason</td>
-<td>źródło zwrotu (patrz niżej)</td>
+<td>przyczyna zwrotu (patrz niżej)</td>
 </tr>
 <tr>
 <td>partial</td>
@@ -1395,7 +1398,7 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 </tr>
 </tbody></table>
 
-<h3 id="r-d-a-zwrotu">Źródła zwrotu</h3>
+<h3 id="przyczyny-zwrotu">Przyczyny zwrotu</h3>
 
 <table><thead>
 <tr>
