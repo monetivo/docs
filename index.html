@@ -164,7 +164,7 @@ Nie musisz wykorzystywać udostępnianych przez nas bibliotek. Jest to jedynie u
 <li>Standardowa - przy użyciu Composer:</li>
 </ol>
 
-<p><code class="prettyprint">composer require monetivoapi/monetivo</code>
+<p><code class="prettyprint">composer require monetivo/monetivo-php</code>
 jeśli Composer nie został zainstalowany globalnie:</p>
 
 <p><code class="prettyprint">php composer.phar require monetivo/monetivo-php</code></p>
@@ -1483,7 +1483,6 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
                     [pos_id] =&gt; 1
                     [name] =&gt; Monetivo
                     [url] =&gt; https://monetivo.com
-                    [merchant_id] =&gt; 1
                     [contact_user] =&gt; Array
                         (
                             [name] =&gt; John
@@ -1656,10 +1655,6 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 <td>adres URL POS</td>
 </tr>
 <tr>
-<td>merchant_id</td>
-<td>identyfikator merchanta</td>
-</tr>
-<tr>
 <td>contact_user[name]</td>
 <td>imię osoby kontaktowej</td>
 </tr>
@@ -1716,7 +1711,6 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
     [pos_id] =&gt; 1
     [name] =&gt; Monetivo
     [url] =&gt; https://monetivo.com
-    [merchant_id] =&gt; 1
     [contact_user] =&gt; Array
         (
             [name] =&gt; John
@@ -1802,10 +1796,6 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 <tr>
 <td>url</td>
 <td>adres URL POS</td>
-</tr>
-<tr>
-<td>merchant_id</td>
-<td>identyfikator merchanta</td>
 </tr>
 <tr>
 <td>contact_user[name]</td>

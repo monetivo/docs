@@ -17,7 +17,7 @@ Nie musisz wykorzystywać udostępnianych przez nas bibliotek. Jest to jedynie u
 
 1. Standardowa - przy użyciu Composer:
 
-`composer require monetivoapi/monetivo`
+`composer require monetivo/monetivo-php`
 jeśli Composer nie został zainstalowany globalnie:
 
 `php composer.phar require monetivo/monetivo-php`
@@ -25,9 +25,9 @@ jeśli Composer nie został zainstalowany globalnie:
 2. Niestandardowa - przy użyciu archiwum z biblioteką:
   - rozpakowanie archiwum do dowolnego folderu,
   - dołączenie pliku autoload.php z zachowaniem odpowiedniej ścieżki:
-  
+
     `require '<ścieżka do pliku autoload.php>';`
-    
+
 <aside class="notice">
 Zobacz sekcję <a href="https://getcomposer.org/doc/00-intro.md">Getting Started</a> w dokumentacji Composer by poznać szczegóły korzystania z tego narzędzia
 </aside>

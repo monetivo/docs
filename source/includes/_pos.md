@@ -37,7 +37,6 @@ Array
                     [pos_id] => 1
                     [name] => Monetivo
                     [url] => https://monetivo.com
-                    [merchant_id] => 1
                     [contact_user] => Array
                         (
                             [name] => John
@@ -111,7 +110,6 @@ Klucz | Opis |
 pos_id | identyfikator POS |
 name | nazwa POS |
 url | adres URL POS
-merchant_id | identyfikator merchanta
 contact_user[name] | imię osoby kontaktowej
 contact_user[surname] | nazwisko osoby kontaktowej
 contact_user[email] | adres email osoby kontaktowej
@@ -144,7 +142,6 @@ Array
     [pos_id] => 1
     [name] => Monetivo
     [url] => https://monetivo.com
-    [merchant_id] => 1
     [contact_user] => Array
         (
             [name] => John
@@ -189,7 +186,6 @@ Klucz | Opis |
 pos_id | identyfikator POS |
 name | nazwa POS |
 url | adres URL POS
-merchant_id | identyfikator merchanta
 contact_user[name] | imię osoby kontaktowej
 contact_user[surname] | nazwisko osoby kontaktowej
 contact_user[email] | adres email osoby kontaktowej
