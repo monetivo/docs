@@ -10,6 +10,10 @@ services | oferta dotycząca usług (prowizje za poszczególne usługi udostępn
 
 ## Lista ofert
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -281,6 +285,10 @@ X-API-Token | - | tak | token aplikacji
 X-Auth-Token | - | tak | token użytkownika
 
 ## Szczegóły oferty
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php

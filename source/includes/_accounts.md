@@ -2,6 +2,10 @@
 
 ## Tworzenie rachunku
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -60,6 +64,10 @@ created_at | data utworzenia rachunku
 updated_at | data aktualizacji rachunku
 
 ## Lista rachunków
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php
@@ -141,6 +149,10 @@ data | tablica zawierająca wyniki
 
 ## Szczegóły rachunku
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -196,6 +208,10 @@ created_at | data utworzenia rachunku
 updated_at | data aktualizacji rachunku
 
 ## Raport rachunku
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php

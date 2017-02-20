@@ -17,7 +17,7 @@ Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://merchant
 </aside>
 
 <aside class="notice">
-Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta.
+Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta. Większy zakres uprawnień przypisany jest do Użytkownika administracyjnego. Dokumentacja szczegółowo opisuje przypadki, gdy uprawnienia użytkownika integracji są niewystarczające i operacji należy dokonać jako użytkownik administracyjny. Sposób logowania użytkownika administracynego jest identyczny jak w przypadku użytkownika integracji.
 </aside>
 
 ### Żądanie HTTP

@@ -15,4 +15,6 @@ System Monetivo składa się z dwóch odizolowanych od siebie środowisk:
 - testowego, dostępnego pod adresem `https://api.monetivo.io`,
 - produkcyjnego, dostępnego pod adresem `https://api.monetivo.com`.
 
-Przy rejestracji otrzymujesz dostęp do środowiska testowego. Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.
+Przy rejestracji konta w systemie Monetivo otrzymujesz dostęp do środowiska testowego w postaci tokenu aplikacji, loginu oraz hasła. Dane te są przypisane do specjalnego użytkownika, tzw. użytkownika integracji, który posiada zmniejszony poziom uprawnień. Logując się jako użytkownik integracji możesz wykonać podstawowe czynności, takie jak utworzenie transakcji czy zwrot transakcji. Część zapytań do naszego API może być wykonywana tylko przez użytkownika administracyjnego.
+
+Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.

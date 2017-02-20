@@ -8,6 +8,10 @@ Do Twojego konta musi być przypisane konto bankowe. Konto to wymaga weryfikacji
 
 ## Zlecenie wypłaty
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -88,6 +92,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 
 ## Lista wypłat
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -153,6 +161,10 @@ to | wyniki do
 data | tablica zawierająca wyniki
 
 ## Szczegóły wypłaty
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php

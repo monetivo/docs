@@ -139,7 +139,9 @@ Bilbioteka umożliwia również wykonanie innych operacji na koncie merchanta sy
 <li>produkcyjnego, dostępnego pod adresem <code class="prettyprint">https://api.monetivo.com</code>.</li>
 </ul>
 
-<p>Przy rejestracji otrzymujesz dostęp do środowiska testowego. Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.</p>
+<p>Przy rejestracji konta w systemie Monetivo otrzymujesz dostęp do środowiska testowego w postaci tokenu aplikacji, loginu oraz hasła. Dane te są przypisane do specjalnego użytkownika, tzw. użytkownika integracji, który posiada zmniejszony poziom uprawnień. Logując się jako użytkownik integracji możesz wykonać podstawowe czynności, takie jak utworzenie transakcji czy zwrot transakcji. Część zapytań do naszego API może być wykonywana tylko przez użytkownika administracyjnego.</p>
+
+<p>Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.</p>
 
           <h1 id="biblioteki">Biblioteki</h1>
 
@@ -205,7 +207,7 @@ Dane dostępowe do API dostępne są po zalogowaniu do <a href="https://merchant
 </aside>
 
 <aside class="notice">
-Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta.
+Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeby integracji. Użytkownik ten posiada zmniejszoną ilość uprawnień co ogranicza dostęp do Panelu Merchanta. Większy zakres uprawnień przypisany jest do Użytkownika administracyjnego. Dokumentacja szczegółowo opisuje przypadki, gdy uprawnienia użytkownika integracji są niewystarczające i operacji należy dokonać jako użytkownik administracyjny. Sposób logowania użytkownika administracynego jest identyczny jak w przypadku użytkownika integracji.
 </aside>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -1836,6 +1838,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="listowanie-rachunk-w-przypisanych-do-pos">Listowanie rachunków przypisanych do POS</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -1968,6 +1974,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="przypisanie-rachunku-do-pos">Przypisanie rachunku do POS</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2107,6 +2117,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="usuni-cie-przypisania-rachunku-do-pos">Usunięcie przypisania rachunku do POS</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2202,6 +2216,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
           <h1 id="rachunki">Rachunki</h1>
 
 <h2 id="tworzenie-rachunku">Tworzenie rachunku</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2316,6 +2334,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="lista-rachunk-w">Lista rachunków</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2443,6 +2465,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="szczeg-y-rachunku">Szczegóły rachunku</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2549,6 +2575,10 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </tbody></table>
 
 <h2 id="raport-rachunku">Raport rachunku</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2831,6 +2861,10 @@ Typy obiektów wyszczególnione w raporcie <code>object_type</code> są tożsame
           <h1 id="rachunki-bankowe">Rachunki bankowe</h1>
 
 <h2 id="lista-rachunk-w-bankowych">Lista rachunków bankowych</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2938,6 +2972,10 @@ Typy obiektów wyszczególnione w raporcie <code>object_type</code> są tożsame
 </tbody></table>
 
 <h2 id="szczeg-y-rachunku-bankowego">Szczegóły rachunku bankowego</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3020,6 +3058,10 @@ Do Twojego konta musi być przypisane konto bankowe. Konto to wymaga weryfikacji
 </aside>
 
 <h2 id="zlecenie-wyp-aty">Zlecenie wypłaty</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3173,6 +3215,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </aside>
 
 <h2 id="lista-wyp-at">Lista wypłat</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3298,6 +3344,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </tbody></table>
 
 <h2 id="szczeg-y-wyp-aty">Szczegóły wypłaty</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3447,6 +3497,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </tbody></table>
 
 <h2 id="lista-adres-w">Lista adresów</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3521,6 +3575,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </tbody></table>
 
 <h2 id="aktualizacja-adresu">Aktualizacja adresu</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3669,6 +3727,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </tbody></table>
 
 <h2 id="lista-ofert">Lista ofert</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -3968,6 +4030,10 @@ Kwota wypłaty <code>amount</code> jest równa kwocie środków na rachunku w sy
 </tbody></table>
 
 <h2 id="szczeg-y-oferty">Szczegóły oferty</h2>
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...

@@ -10,6 +10,10 @@ correspondence | adres korespondencyjny |
 
 ## Lista adresów
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -56,6 +60,10 @@ X-API-Token | - | tak | token aplikacji
 X-Auth-Token | - | tak | token użytkownika
 
 ## Aktualizacja adresu
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php

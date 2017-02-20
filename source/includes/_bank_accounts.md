@@ -2,6 +2,10 @@
 
 ## Lista rachunków bankowych
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -61,6 +65,10 @@ to | wyniki do
 data | tablica zawierająca wyniki
 
 ## Szczegóły rachunku bankowego
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php

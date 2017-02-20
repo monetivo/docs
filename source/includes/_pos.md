@@ -198,6 +198,10 @@ updated_at | data ostatniej edycji
 
 ## Listowanie rachunków przypisanych do POS
 
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
+
 ```php
 <?php
 
@@ -270,6 +274,10 @@ to | wyniki do
 data | tablica zawierająca wyniki
 
 ## Przypisanie rachunku do POS
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php
@@ -345,6 +353,10 @@ to | wyniki do
 data | tablica zawierająca wyniki
 
 ## Usunięcie przypisania rachunku do POS
+
+<aside class="notice">
+Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
+</aside>
 
 ```php
 <?php
