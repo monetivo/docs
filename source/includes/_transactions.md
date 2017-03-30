@@ -82,6 +82,8 @@ buyer[email] | - | tak | email kupującego|
 language | - | tak | język, którym posługuje się Kupujący
 currency | - | tak | waluta, dowolna spośród: PLN
 amount | - | tak | kwota zamówienia
+channel_id | - | nie | identyfikator kanału płatności, zdefiniowanie powoduje wymuszenie dokonania płatności poprzez wskazany kanał bez uprzedniej możliwości wyboru przez Kupującego
+accept_terms | - | tak, jeśli channel_id jest zdefiniowany | informacja, że Kupujący zaakceptował regulamin płatności systemu Monetivo; dozwolona wartość: 1
 return_url | - | tak | adres powrotny (URL) do przekierowania
 notify_url | taki jak dla POS | nie | adres URL po stronie Merchanta na który zostanie wysłane powiadomienie o zmianie statusu transakcji w systemie Monetivo
 

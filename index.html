@@ -449,6 +449,18 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 <td>kwota zamówienia</td>
 </tr>
 <tr>
+<td>channel_id</td>
+<td>-</td>
+<td>nie</td>
+<td>identyfikator kanału płatności, zdefiniowanie powoduje wymuszenie dokonania płatności poprzez wskazany kanał bez uprzedniej możliwości wyboru przez Kupującego</td>
+</tr>
+<tr>
+<td>accept_terms</td>
+<td>-</td>
+<td>tak, jeśli channel_id jest zdefiniowany</td>
+<td>informacja, że Kupujący zaakceptował regulamin płatności systemu Monetivo; dozwolona wartość: 1</td>
+</tr>
+<tr>
 <td>return_url</td>
 <td>-</td>
 <td>tak</td>
@@ -1447,6 +1459,385 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 <td>dane bankowe przesłane do wypłaty</td>
 </tr>
 </tbody></table>
+
+          <h1 id="kana-y-p-atno-ci">Kanały płatności</h1>
+
+<h2 id="lista-dost-pnych-kana-w-p-atno-ci">Lista dostępnych kanałów płatności</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy dostępnych kanałów płatności dla waluty PLN
+</span>
+<span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">paymentChannels</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">(</span><span class="s1">'PLN'</span><span class="p">);</span>
+
+
+</code></pre>
+
+<blockquote>
+<p>Przykładowy zwrócony wynik:</p>
+</blockquote>
+<pre class="highlight php"><code>Array
+(
+    [0] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 1
+            [name] =&gt; Blik
+            [currency] =&gt; PLN
+            [type] =&gt; 6
+            [order_by] =&gt; 1
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/1.png
+        )
+
+    [1] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 2
+            [name] =&gt; mTransfer
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 2
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/2.png
+        )
+
+    [2] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 3
+            [name] =&gt; Płać z ING
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 3
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/3.png
+        )
+
+    [3] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 4
+            [name] =&gt; Pekao24Przelew
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 4
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/4.png
+        )
+
+    [4] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 5
+            [name] =&gt; Przelew24 BZWBK
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 5
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/5.png
+        )
+
+    [5] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 6
+            [name] =&gt; Płacę z Alior Bankiem
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 6
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/6.png
+        )
+
+    [6] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 7
+            [name] =&gt; Płacę z IPKO
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 7
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/7.png
+        )
+
+    [7] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 8
+            [name] =&gt; Płacę z Inteligo
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 8
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/8.png
+        )
+
+    [8] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 9
+            [name] =&gt; Millennium Bank PBL
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 9
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/9.png
+        )
+
+    [9] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 10
+            [name] =&gt; CA przelew online
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 10
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/10.png
+        )
+
+    [10] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 11
+            [name] =&gt; T-Mobile Usługi Bankowe
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 11
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/11.png
+        )
+
+    [11] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 12
+            [name] =&gt; Deutsche Bank
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 12
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/12.png
+        )
+
+    [12] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 13
+            [name] =&gt; BPH Przelew
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 13
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/13.png
+        )
+
+    [13] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 14
+            [name] =&gt; BGŻ BNP Paribas
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 14
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/14.png
+        )
+
+    [14] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 15
+            [name] =&gt; Eurobank - płatność online
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 15
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/15.png
+        )
+
+    [15] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 16
+            [name] =&gt; PBS PBL
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 16
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/16.png
+        )
+
+    [16] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 17
+            [name] =&gt; r-Przelew
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 17
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/17.png
+        )
+
+    [17] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 18
+            [name] =&gt; Toyota Bank Pay Way
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 18
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/18.png
+        )
+
+    [18] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 19
+            [name] =&gt; BSWSCHOWA PBL
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 19
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/19.png
+        )
+
+    [19] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 20
+            [name] =&gt; Płać z BOŚ Bank
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 20
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/20.png
+        )
+
+    [20] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 21
+            [name] =&gt; Getin Bank
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 21
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/21.png
+        )
+
+    [21] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 22
+            [name] =&gt; Płacę z Orange
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 22
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/22.png
+        )
+
+    [22] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 23
+            [name] =&gt; Płacę z Citi Handlowy
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 23
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/23.png
+        )
+
+    [23] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 24
+            [name] =&gt; e-transfer Pocztowy24
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 24
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/24.png
+        )
+
+    [24] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 25
+            [name] =&gt; Płacę z PLUS BANK
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 25
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/25.png
+        )
+
+    [25] =&gt; stdClass Object
+        (
+            [channel_id] =&gt; 26
+            [name] =&gt; Noble Bank
+            [currency] =&gt; PLN
+            [type] =&gt; 1
+            [order_by] =&gt; 26
+            [img] =&gt; https://secure.monetivo.com/assets/img/banks/26.png
+        )
+
+)
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">GET https://api.monetivo.com/v1/channels</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>currency</td>
+<td>-</td>
+<td>tak</td>
+<td>waluta wykorzystywana w kanałach płatności</td>
+</tr>
+<tr>
+<td>type</td>
+<td>-</td>
+<td>nie</td>
+<td>typy kanałów płatności rozdzielane przecinkiem, z listy poniżej</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="typy-kana-w-p-atno-ci">Typy kanałów płatności</h3>
+
+<table><thead>
+<tr>
+<th>Typ</th>
+<th>Wartość</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TYPE_ETRANSFER</td>
+<td>1</td>
+<td>kanały szybkich płatności typu eTransfer</td>
+</tr>
+<tr>
+<td>TYPE_BLIK</td>
+<td>2</td>
+<td>kanały płatności systemu BLIK</td>
+</tr>
+<tr>
+<td>TYPE_MO_APP</td>
+<td>4</td>
+<td>kanały aplikacji mobilnych (oferta w przygotowaniu)</td>
+</tr>
+<tr>
+<td>TYPE_MANUAL</td>
+<td>8</td>
+<td>kanały dla płatności wykonywanych manualnie, np. druk płatności</td>
+</tr>
+<tr>
+<td>TYPE_CARD</td>
+<td>16</td>
+<td>kanały płatności kartą kredytową</td>
+</tr>
+<tr>
+<td>TYPE_OTHER</td>
+<td>32</td>
+<td>pozostałe kanały</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Wartość <code>channel_id</code> kanałów zwracanych w odpowiedzi możesz wykorzystać do predefiniowania kanału płatności. Zobacz <a href="https://docs.monetivo.com/#tworzenie-transakcji">Tworzenie transakcji</a>
+</aside>
 
           <h1 id="pos">POS</h1>
 
@@ -2915,7 +3306,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <td>X-API-Token</td>
 <td>-</td>
 <td>tak</td>
-<td>Token aplikacji</td>
+<td>token aplikacji</td>
 </tr>
 <tr>
 <td>X-Auth-Token</td>

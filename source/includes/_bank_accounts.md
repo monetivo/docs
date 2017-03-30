@@ -47,7 +47,7 @@ Array
 
 Nagłówek | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
-X-API-Token | - | tak | Token aplikacji
+X-API-Token | - | tak | token aplikacji
 X-Auth-Token | - | tak | token użytkownika
 
 ### Odpowiedź

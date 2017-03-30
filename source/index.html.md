@@ -13,6 +13,7 @@ includes:
   - libraries
   - auth
   - transactions
+  - channels
   - pos
   - accounts
   - bank_accounts
