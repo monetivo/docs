@@ -3,6 +3,7 @@ title: Monetivo MerchantAPI
 
 language_tabs:
   - php
+  - shell
 
 toc_footers:
   - <a href='https://github.com/monetivo' target='_blank'>GitHub</a>

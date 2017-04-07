@@ -12,6 +12,10 @@ Do Twojego konta musi być przypisane konto bankowe. Konto to wymaga weryfikacji
 Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </aside>
 
+<aside class="notice">
+Zlecenie wypłaty możliwe jest jedynie w przypadku pozytywnej weryfikacji konta
+</aside>
+
 ```php
 <?php
 
@@ -19,15 +23,11 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 // tworzenie zlecenia wypłaty środków
 
-$account_id = 'M12345';
+$account_id = '1';
 $payout = $api->payouts()->create($account_id);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [identifier] => 1
@@ -45,6 +45,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/accounts/1/payouts" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -105,12 +112,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $payouts = $api->payouts()->listing();
 
-
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
+// Przykładowy zwrócony wynik:
 Array
 (
     [total] => 0
@@ -129,6 +131,13 @@ Array
 )
 ```
 
+```shell
+curl "https://api.monetivo.com/v1/payouts" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
+```
+
 ### Żądanie HTTP
 
 `GET https://api.monetivo.com/v1/payouts`
@@ -139,12 +148,6 @@ Nagłówek | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
 X-API-Token | - | tak | token aplikacji
 X-Auth-Token | - | tak | token użytkownika
-
-### Parametry URL żądania
-
-Parametr | Domyślnie | Wymagany | Opis |
--------- | --------- | -------- | ---  |
-ACCOUNT_ID | - | nie | identyfikator rachunku w systemie Monetivo |
 
 ### Odpowiedź
 
@@ -172,17 +175,14 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 // autentykacja...
 
 // pobieranie szczegółów wypłaty o identyfikatorze M12345
-$identifier = 'M12345';
+$identifier = 'P12345';
 $payout = $api->payouts()->details($identifier);
 
-```
+// Przykładowy zwrócony wynik:
 
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
-    [identifier] => 1
+    [identifier] => 12345
     [account_number] => 60102010260000042270201111
     [account_name] => Default PLN
     [account_address] => Botaniczna 8, Poznan
@@ -197,6 +197,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/payouts/P12345" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP

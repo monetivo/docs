@@ -23,11 +23,7 @@
          );
  $transaction = $api->transactions()->create($params);
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
+// Przykładowy zwrócony wynik
 Array
 (
     [pos_id] => 1
@@ -58,6 +54,21 @@ Array
     [redirect_url] => https://secure.monetivo.com/pay/XXXXXXX/daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx
     [httpCode] => 200
 )
+```
+
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/transactions" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+     --data-urlencode "amount=120.00" \
+     --data-urlencode "return_url=https://example.com/thankyou" \
+     --data-urlencode "order_data[description]=Testowy opis zamówienia" \
+     --data-urlencode "buyer[email]=jkowalski@example.com" \
+     --data-urlencode "language=PL" \
+     --data-urlencode "currency=PLN" \
+     --data-urlencode "order_data[order_id]=MYSHOP-12345" \
+     --data-urlencode "buyer[name]=Jan Kowalski"
 ```
 
 ### Żądanie HTTP
@@ -133,12 +144,8 @@ redirect_url | adres URL, który umożliwia dokonanie płatności
 
 $transactions = $api->transactions()->listing(['date_from' => '2016-12-01', 'status' => \Monetivo\Api\Transactions::TRAN_STATUS_PAID]);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [total] => 2
@@ -225,6 +232,13 @@ Array
 )
 ```
 
+```shell
+curl "https://api.monetivo.com/v1/transactions" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
+```
+
 ### Żądanie HTTP
 
 `GET https://api.monetivo.com/v1/transactions`
@@ -295,12 +309,7 @@ data | tablica zawierająca wyniki
 $identifier = 'MO12345';
 $transaction = $api->transactions()->details($identifier);
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
-// przykład - transakcja zaakceptowana wraz z dwoma zwrotami częściowymi
+// Przykładowa odpowiedź - transakcja zaakceptowana wraz z dwoma zwrotami częściowymi
 Array
 (
     [pos_id] => 1
@@ -351,6 +360,14 @@ Array
     [committed_at] => 2016-12-13T10:18:08+0000
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/transactions/MRX8XXXX2" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
+
 ```
 
 ### Żądanie HTTP
@@ -441,18 +458,14 @@ identifier | - | tak | identyfikator transakcji |
 
 // autentykacja...
 
-// pobieranie szczegółów transakcji MO12345
+// akceptowanie transakcji MO12345
 $identifier = 'MO12345';
 $transaction = $api->transactions()->accept($identifier);
 
-```
+// Poprawna odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji
+// W przypadku wystąpienia błędu zwrócony zostanie odpowiedni komunikat
 
-> Poprawna odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji
-
-> W przypadku wystąpienia błędu zwrócony zostanie odpowiedni komunikat:
-
-```php
-// przykład: próba zaakceptowania transakcji oczekującej - serwer zwraca komunikat o błędzie z informacją, że nie można zaakceptować oczekującej, nieopłaconej transakcji
+// Przykład: próba zaakceptowania transakcji oczekującej - serwer zwraca komunikat o błędzie z informacją, że nie można zaakceptować oczekującej, nieopłaconej transakcji
 Array
 (
     [errors] => Array
@@ -461,7 +474,13 @@ Array
             [message] => "Cannot accept transaction - incorrect status"
         )
 )
+```
 
+```shell
+curl -X "PUT" "https://api.monetivo.com/v1/transactions/MO12345/accept" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -492,10 +511,17 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 
 // autentykacja...
 
-// pobieranie szczegółów transakcji MO12345
+// odrzucenie transakcji MO12345
 $identifier = 'MO12345';
 $transaction = $api->transactions()->decline($identifier);
 
+```
+
+```shell
+curl -X "PUT" "https://api.monetivo.com/v1/transactions/MO12345/decline" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 > Odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji
 
@@ -527,11 +553,8 @@ X-Auth-Token | - | tak | token użytkownika
 $identifier = 'MO12345';
 $transaction = $api->transactions()->refund($identifier);
 
-```
+// Przykładowy zwrócony wynik:
 
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [name] => John Smith
@@ -557,6 +580,13 @@ Array
     [account_id] => 1
     [committed_at] => 2017-01-04T10:07:37+0100
 )
+```
+
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/transactions/MRX8ER10X/refund" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP

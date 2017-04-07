@@ -91,7 +91,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;php&quot;]">
+  <body class="index" data-languages="[&quot;php&quot;,&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -102,6 +102,7 @@
       <img src="images/logo.png" />
         <div class="lang-selector">
               <a href="#" data-language-name="php">php</a>
+              <a href="#" data-language-name="shell">shell</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Szukaj">
@@ -292,6 +293,7 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 </span>    <span class="nv">$api</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\Monetivo\MerchantApi</span><span class="p">(</span><span class="nv">$app_token</span><span class="p">);</span>
 
     <span class="c1">// autentykacja; jeśli wystąpi błąd to zostanie wyrzucony wyjątek MonetivoException
+</span>    <span class="c1">// zmienna `$token` zawiera token autoryzacyjny. Jego ważność to 15 minut.
 </span>    <span class="nv">$token</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">auth</span><span class="p">(</span><span class="nv">$login</span><span class="p">,</span> <span class="nv">$password</span><span class="p">);</span>
 
     <span class="c1">// następne zapytania do API
@@ -301,11 +303,15 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
 </span>  <span class="k">echo</span> <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span> <span class="c1">// zawiera odpowiedź serwera
 </span><span class="p">}</span>
 </code></pre>
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/auth/login </span><span class="se">\</span><span class="s2">
+     -H "</span>X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf<span class="s2">" </span><span class="se">\</span><span class="s2">
+     -H "</span>Content-Type: application/x-www-form-urlencoded; <span class="nv">charset</span><span class="o">=</span>utf-8<span class="s2">" </span><span class="se">\</span><span class="s2">
+     --data-urlencode "</span><span class="nv">login</span><span class="o">=</span>1GE<span class="s2">" </span><span class="se">\</span><span class="s2">
+     --data-urlencode "</span><span class="nv">password</span><span class="o">=</span>37855xb46d9x478fexxx<span class="s2">"
+</span></code></pre>
 
 <blockquote>
-<p>Zmienna <code class="prettyprint">$token</code> zawiera token autoryzacyjny. Jego ważność to 15 minut.</p>
-
-<p>Pamiętaj, że autentykację wywołujesz jednokrotnie</p>
+<p>Pamiętaj, że autentykację wywołujesz jednokrotnie, a przy kolejnych zapytaniach do API posługujesz się odebranym tokenem</p>
 </blockquote>
 
           <h1 id="transakcje">Transakcje</h1>
@@ -331,41 +337,50 @@ Dane dostępowe są przypisane do użytkownika specjalnie utworzonego na potrzeb
          <span class="p">);</span>
  <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">17.50</span>
+    <span class="p">[</span><span class="nx">language</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">pl</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">buyer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span> <span class="nx">Smith</span>
+            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">john</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">order_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Opis</span> <span class="nx">testowy</span>
+            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">403</span><span class="nx">a6047</span><span class="o">-</span><span class="mi">4798</span><span class="o">-</span><span class="mi">4</span><span class="nx">f1e</span><span class="o">-</span><span class="nx">a93c</span><span class="o">-</span><span class="nx">xxxxxxxxxxxx</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">return_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">http</span><span class="o">://</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="nx">T11</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mi">22</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="nx">T11</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mi">22</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">XXXXXXX</span>
+    <span class="p">[</span><span class="nx">sign</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx</span>
+    <span class="p">[</span><span class="nx">redirect_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">secure</span><span class="o">.</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">pay</span><span class="o">/</span><span class="nx">XXXXXXX</span><span class="o">/</span><span class="nx">daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [pos_id] =&gt; 1
-    [amount] =&gt; 17.50
-    [language] =&gt; pl
-    [currency] =&gt; PLN
-    [buyer] =&gt; Array
-        (
-            [name] =&gt; John Smith
-            [email] =&gt; john@example.com
-        )
-
-    [order_data] =&gt; Array
-        (
-            [description] =&gt; Opis testowy
-            [order_id] =&gt; 403a6047-4798-4f1e-a93c-xxxxxxxxxxxx
-        )
-
-    [return_url] =&gt; http://example.com
-    [status_history] =&gt; Array
-        (
-        )
-
-    [updated_at] =&gt; 2016-12-22T11:00:22+0000
-    [created_at] =&gt; 2016-12-22T11:00:22+0000
-    [identifier] =&gt; XXXXXXX
-    [sign] =&gt; daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx
-    [redirect_url] =&gt; https://secure.monetivo.com/pay/XXXXXXX/daa31f723b855af6cc4ff274fe0dxxxxxxxxxxxx
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/transactions"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"amount=120.00"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"return_url=https://example.com/thankyou"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"order_data[description]=Testowy opis zamówienia"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"buyer[email]=jkowalski@example.com"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"language=PL"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"currency=PLN"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"order_data[order_id]=MYSHOP-12345"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"buyer[name]=Jan Kowalski"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -574,96 +589,97 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 </span>
 <span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">([</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">,</span> <span class="s1">'status'</span> <span class="o">=&gt;</span> <span class="nx">\Monetivo\Api\Transactions</span><span class="o">::</span><span class="na">TRAN_STATUS_PAID</span><span class="p">]);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MXXXXXX</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">2.00</span>
+                    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">language</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">pl</span>
+                    <span class="p">[</span><span class="nx">order_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">f011185b</span><span class="o">-</span><span class="nx">fa2a</span><span class="o">-</span><span class="mi">4</span><span class="nx">b70</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxxxxxxxxxx</span>
+                            <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Zakup</span> <span class="nx">testowy</span> <span class="mi">1</span>
+                        <span class="p">)</span>
 
+                    <span class="p">[</span><span class="nx">buyer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span> <span class="nx">Smith</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">john</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">return_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">thanks</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mo">04</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">38</span><span class="o">:</span><span class="mo">04</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">accounted_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">partial_refunds</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span><span class="p">()</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M1XXXXX</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">100.00</span>
+                    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">language</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">pl</span>
+                    <span class="p">[</span><span class="nx">order_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">d047f63d</span><span class="o">-</span><span class="mi">7</span><span class="nx">cdf</span><span class="o">-</span><span class="nx">XXXX</span><span class="o">-</span><span class="mi">9655</span><span class="o">-</span><span class="nx">XXXXXXXXXXXX</span>
+                            <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Christmas</span> <span class="nx">gifts</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">buyer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Anna</span> <span class="nx">Doe</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">ann</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">return_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">thanks</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">41</span><span class="o">:</span><span class="mi">58</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">41</span><span class="o">:</span><span class="mi">58</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">accounted_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">partial_refunds</span><span class="p">]</span> <span class="o">=&gt;</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 2
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 3
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [pos_id] =&gt; 1
-                    [identifier] =&gt; MXXXXXX
-                    [currency] =&gt; PLN
-                    [amount] =&gt; 2.00
-                    [status] =&gt; 1
-                    [language] =&gt; pl
-                    [order_data] =&gt; Array
-                        (
-                            [order_id] =&gt; f011185b-fa2a-4b70-xxxx-xxxxxxxxxxxx
-                            [description] =&gt; Zakup testowy 1
-                        )
-
-                    [buyer] =&gt; Array
-                        (
-                            [name] =&gt; John Smith
-                            [email] =&gt; john@example.com
-                        )
-
-                    [status_history] =&gt; Array
-                        (
-                        )
-
-                    [return_url] =&gt; https://example.com/thanks
-                    [account_id] =&gt;
-                    [created_at] =&gt; 2016-12-09T12:38:04+0000
-                    [updated_at] =&gt; 2016-12-09T12:38:04+0000
-                    [channel_id] =&gt;
-                    [committed_at] =&gt;
-                    [accounted_at] =&gt;
-                    [partial_refunds] =&gt; Array()
-                )
-
-            [1] =&gt; Array
-                (
-                    [pos_id] =&gt; 1
-                    [identifier] =&gt; M1XXXXX
-                    [currency] =&gt; PLN
-                    [amount] =&gt; 100.00
-                    [status] =&gt; 1
-                    [language] =&gt; pl
-                    [order_data] =&gt; Array
-                        (
-                            [order_id] =&gt; d047f63d-7cdf-XXXX-9655-XXXXXXXXXXXX
-                            [description] =&gt; Christmas gifts
-                        )
-
-                    [buyer] =&gt; Array
-                        (
-                            [name] =&gt; Anna Doe
-                            [email] =&gt; ann@example.com
-                        )
-
-                    [status_history] =&gt; Array
-                        (
-                        )
-
-                    [return_url] =&gt; https://example.com/thanks
-                    [account_id] =&gt;
-                    [created_at] =&gt; 2016-12-09T12:41:58+0000
-                    [updated_at] =&gt; 2016-12-09T12:41:58+0000
-                    [channel_id] =&gt;
-                    [committed_at] =&gt;
-                    [accounted_at] =&gt;
-                    [partial_refunds] =&gt;
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/transactions"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -877,62 +893,63 @@ Zdefiniowanie adresu <code>notify_url</code> nie powoduje nadpisania adresu zdef
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowa odpowiedź - transakcja zaakceptowana wraz z dwoma zwrotami częściowymi
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MXXXXXX</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">15.50</span>
+    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4</span>
+    <span class="p">[</span><span class="nx">language</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">pl</span>
+    <span class="p">[</span><span class="nx">order_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">d6681448</span><span class="o">-</span><span class="nx">f850</span><span class="o">-</span><span class="mi">4</span><span class="nx">c7c</span><span class="o">-</span><span class="nx">bc28</span><span class="o">-</span><span class="nx">XXXXXXXXXXXX</span>
+            <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Opis</span> <span class="nx">testowy</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">buyer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span> <span class="nx">Doe</span>
+            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">john</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">return_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+    <span class="p">[</span><span class="nx">notify_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">partial_refunds</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.00</span>
+                    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T10</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">36</span><span class="o">+</span><span class="mo">0100</span>
+                    <span class="p">[</span><span class="nx">refund_identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MRX8XXXX1</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.00</span>
+                    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T10</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mi">26</span><span class="o">+</span><span class="mo">0100</span>
+                    <span class="p">[</span><span class="nx">refund_identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MRX8XXXX2</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+    <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">25</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span><span class="nx">T10</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mo">06</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span><span class="nx">T10</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mo">06</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">13</span><span class="nx">T10</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mi">08</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/transactions/MRX8XXXX2"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>// przykład - transakcja zaakceptowana wraz z dwoma zwrotami częściowymi
-Array
-(
-    [pos_id] =&gt; 1
-    [identifier] =&gt; MXXXXXX
-    [currency] =&gt; PLN
-    [amount] =&gt; 15.50
-    [status] =&gt; 4
-    [language] =&gt; pl
-    [order_data] =&gt; Array
-        (
-            [order_id] =&gt; d6681448-f850-4c7c-bc28-XXXXXXXXXXXX
-            [description] =&gt; Opis testowy
-        )
-
-    [buyer] =&gt; Array
-        (
-            [name] =&gt; John Doe
-            [email] =&gt; john@example.com
-        )
-
-    [status_history] =&gt; Array
-        (
-        )
-
-    [return_url] =&gt; https://example.com
-    [notify_url] =&gt;
-    [account_id] =&gt;
-    [partial_refunds] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [amount] =&gt; 1.00
-                    [committed_at] =&gt; 2017-01-04T10:10:36+0100
-                    [refund_identifier] =&gt; MRX8XXXX1
-                )
-
-            [1] =&gt; Array
-                (
-                    [amount] =&gt; 1.00
-                    [committed_at] =&gt; 2017-01-04T10:12:26+0100
-                    [refund_identifier] =&gt; MRX8XXXX2
-                )
-
-        )
-    [channel_id] =&gt; 25
-    [created_at] =&gt; 2016-12-13T10:18:06+0000
-    [updated_at] =&gt; 2016-12-13T10:18:06+0000
-    [committed_at] =&gt; 2016-12-13T10:18:08+0000
-    [httpCode] =&gt; 200
-)
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -1121,27 +1138,27 @@ Przy odbiorze powiadomienia Twój serwer powinien zwrócić kod HTTP 200 OK. Je�
 
 <span class="c1">// autentykacja...
 </span>
-<span class="c1">// pobieranie szczegółów transakcji MO12345
+<span class="c1">// akceptowanie transakcji MO12345
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">accept</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Poprawna odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji
+// W przypadku wystąpienia błędu zwrócony zostanie odpowiedni komunikat
+</span>
+<span class="c1">// Przykład: próba zaakceptowania transakcji oczekującej - serwer zwraca komunikat o błędzie z informacją, że nie można zaakceptować oczekującej, nieopłaconej transakcji
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">errors</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">code</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+            <span class="p">[</span><span class="nx">message</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="s2">"Cannot accept transaction - incorrect status"</span>
+        <span class="p">)</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Poprawna odpowiedź serwera jest taka sama jak w przypadku tworzenia transakcji</p>
-
-<p>W przypadku wystąpienia błędu zwrócony zostanie odpowiedni komunikat:</p>
-</blockquote>
-<pre class="highlight php"><code>// przykład: próba zaakceptowania transakcji oczekującej - serwer zwraca komunikat o błędzie z informacją, że nie można zaakceptować oczekującej, nieopłaconej transakcji
-Array
-(
-    [errors] =&gt; Array
-        (
-            [code] =&gt; 1
-            [message] =&gt; "Cannot accept transaction - incorrect status"
-        )
-)
-
+<pre class="highlight shell"><code>curl -X <span class="s2">"PUT"</span> <span class="s2">"https://api.monetivo.com/v1/transactions/MO12345/accept"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -1199,10 +1216,15 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 
 <span class="c1">// autentykacja...
 </span>
-<span class="c1">// pobieranie szczegółów transakcji MO12345
+<span class="c1">// odrzucenie transakcji MO12345
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">decline</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+</code></pre>
+<pre class="highlight shell"><code>curl -X <span class="s2">"PUT"</span> <span class="s2">"https://api.monetivo.com/v1/transactions/MO12345/decline"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <blockquote>
@@ -1264,36 +1286,38 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'MO12345'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">refund</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span> <span class="nx">Smith</span>
+    <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">john</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.00</span>
+    <span class="p">[</span><span class="nx">transaction_identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MO12345</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">christmas</span> <span class="nx">gifts</span>
+    <span class="p">[</span><span class="nx">reason</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4</span>
+    <span class="p">[</span><span class="nx">partial</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nb">date</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T09</span><span class="o">:</span><span class="mo">07</span><span class="o">:</span><span class="mi">38</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T09</span><span class="o">:</span><span class="mo">07</span><span class="o">:</span><span class="mi">38</span><span class="o">+</span><span class="mo">0100</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T09</span><span class="o">:</span><span class="mo">07</span><span class="o">:</span><span class="mi">38</span><span class="o">+</span><span class="mo">0100</span>
+    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">MRX8ER10X</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">04</span><span class="nx">T10</span><span class="o">:</span><span class="mo">07</span><span class="o">:</span><span class="mi">37</span><span class="o">+</span><span class="mo">0100</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [name] =&gt; John Smith
-    [email] =&gt; john@example.com
-    [amount] =&gt; 1.00
-    [transaction_identifier] =&gt; MO12345
-    [currency] =&gt; PLN
-    [description] =&gt; christmas gifts
-    [reason] =&gt; 4
-    [partial] =&gt; 0
-    [status_history] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [status] =&gt; 1
-                    [date] =&gt; 2017-01-04T09:07:38+0000
-                )
-        )
-    [status] =&gt; 1
-    [updated_at] =&gt; 2017-01-04T09:07:38+0100
-    [created_at] =&gt; 2017-01-04T09:07:38+0100
-    [identifier] =&gt; MRX8ER10X
-    [account_id] =&gt; 1
-    [committed_at] =&gt; 2017-01-04T10:07:37+0100
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/transactions/MRX8ER10X/refund"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -1741,6 +1765,11 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 
 )
 </code></pre>
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/channels"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
+</code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
 
@@ -1844,6 +1873,166 @@ Wartość <code>channel_id</code> kanałów zwracanych w odpowiedzi możesz wyko
 <p>POS to punkt sprzedaży, np. Twój sklep internetowy. Możesz posiadać wiele POS-ów, które są przypisane do Twojego konta merchanta. Każdy POS posiada szereg ustawień, w tym adres URL na który będą przychodzić powiadomienia o zmianie statusu transakcji
 POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji.</p>
 
+<h2 id="tworzenie-pos">Tworzenie POS</h2>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+<span class="c1">// pobieranie listy POS
+</span><span class="nv">$params</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'My shop'</span><span class="p">,</span> <span class="s1">'url'</span> <span class="o">=&gt;</span> <span class="s1">'https://myshop.example.com'</span><span class="p">,</span> <span class="s1">'contact_id'</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">];</span>
+<span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
+
+<span class="c1">// Przykładowy zwrócony wynik:
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+    <span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+    <span class="p">[</span><span class="nx">contact_user</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span>
+            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">hello</span><span class="o">@</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+            <span class="p">[</span><span class="nx">phone</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">+</span><span class="mi">48123456789</span>
+            <span class="p">[</span><span class="nx">title</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Mr</span>
+            <span class="p">[</span><span class="nx">surname</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Doe</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">enabled</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">parameters</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">url_notify</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">notify</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
+</code></pre>
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/pos"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
+     --data-urlencode <span class="s2">"name=My Shop"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"url=https://myshop.example.com"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"contact_id=1"</span>
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/pos</code></p>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>-</td>
+<td>tak</td>
+<td>nazwa POS (unikalna)</td>
+</tr>
+<tr>
+<td>url</td>
+<td>-</td>
+<td>tak</td>
+<td>adres URL POS</td>
+</tr>
+<tr>
+<td>contact_id</td>
+<td>-</td>
+<td>tak</td>
+<td>ID osoby kontaktowej</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>pos_id</td>
+<td>identyfikator POS</td>
+</tr>
+<tr>
+<td>name</td>
+<td>nazwa POS</td>
+</tr>
+<tr>
+<td>url</td>
+<td>adres URL POS</td>
+</tr>
+<tr>
+<td>contact_user[name]</td>
+<td>imię osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[surname]</td>
+<td>nazwisko osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[email]</td>
+<td>adres email osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[phone]</td>
+<td>telefon osoby kontaktowej</td>
+</tr>
+<tr>
+<td>contact_user[title]</td>
+<td>tytuł służbowy osoby kontaktowej</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>POS aktywny</td>
+</tr>
+<tr>
+<td>parameters[url_notify]</td>
+<td>adres URL do wysyłania powiadomień o zmianie statusu transakcji</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>data utworzenia</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>data ostatniej edycji</td>
+</tr>
+</tbody></table>
+
 <h2 id="lista-pos">Lista POS</h2>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
@@ -1853,52 +2042,52 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </span>
 <span class="nv">$transactions</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+                    <span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+                    <span class="p">[</span><span class="nx">contact_user</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">hello</span><span class="o">@</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+                            <span class="p">[</span><span class="nx">phone</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">+</span><span class="mi">48123456789</span>
+                            <span class="p">[</span><span class="nx">title</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Mr</span>
+                            <span class="p">[</span><span class="nx">surname</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Doe</span>
+                        <span class="p">)</span>
 
+                    <span class="p">[</span><span class="nx">enabled</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">parameters</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">url_notify</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">notify</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 1
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 1
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [pos_id] =&gt; 1
-                    [name] =&gt; Monetivo
-                    [url] =&gt; https://monetivo.com
-                    [contact_user] =&gt; Array
-                        (
-                            [name] =&gt; John
-                            [email] =&gt; hello@monetivo.com
-                            [phone] =&gt; +48123456789
-                            [title] =&gt; Mr
-                            [surname] =&gt; Doe
-                        )
-
-                    [enabled] =&gt; 1
-                    [parameters] =&gt; Array
-                        (
-                            [url_notify] =&gt; https://monetivo.com/notify
-                        )
-
-                    [created_at] =&gt; 2016-12-09T12:24:15+0000
-                    [updated_at] =&gt; 2016-12-09T12:24:15+0000
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/pos"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2094,34 +2283,36 @@ POS posiada swój identyfikator, który jest niezbędny do stworzenia transakcji
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+    <span class="p">[</span><span class="nx">url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+    <span class="p">[</span><span class="nx">contact_user</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">John</span>
+            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">hello</span><span class="o">@</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span>
+            <span class="p">[</span><span class="nx">phone</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">+</span><span class="mi">48123456789</span>
+            <span class="p">[</span><span class="nx">title</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Mr</span>
+            <span class="p">[</span><span class="nx">surname</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Doe</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">enabled</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">parameters</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">url_notify</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">notify</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [pos_id] =&gt; 1
-    [name] =&gt; Monetivo
-    [url] =&gt; https://monetivo.com
-    [contact_user] =&gt; Array
-        (
-            [name] =&gt; John
-            [email] =&gt; hello@monetivo.com
-            [phone] =&gt; +48123456789
-            [title] =&gt; Mr
-            [surname] =&gt; Doe
-        )
-
-    [enabled] =&gt; 1
-    [parameters] =&gt; Array
-        (
-            [url_notify] =&gt; https://monetivo.com/notify
-        )
-
-    [created_at] =&gt; 2016-12-09T12:24:15+0000
-    [updated_at] =&gt; 2016-12-09T12:24:15+0000
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/pos/1"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2241,35 +2432,37 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T13</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0100</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 1
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 1
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [account_id] =&gt; 1
-                    [pos_id] =&gt; 1
-                    [currency] =&gt; PLN
-                    [created_at] =&gt; 2016-12-09T13:24:15+0100
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/pos/1/accounts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2369,6 +2562,10 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <aside class="notice">
 Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </aside>
+
+<aside class="notice">
+Do POS można przypisać nie więcej niż jeden rachunek z daną walutą
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
@@ -2378,35 +2575,37 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <span class="nv">$account_identifier</span> <span class="o">=</span> <span class="s1">'4'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">bindAccount</span><span class="p">(</span><span class="nv">$pos_identifier</span><span class="p">,</span> <span class="nv">$account_identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T13</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0100</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 1
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 1
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [account_id] =&gt; 4
-                    [pos_id] =&gt; 1
-                    [currency] =&gt; PLN
-                    [created_at] =&gt; 2016-12-09T13:24:15+0100
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/pos/1/accounts/4"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2521,35 +2720,37 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <span class="nv">$account_identifier</span> <span class="o">=</span> <span class="s1">'4'</span><span class="p">;</span>
 <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">pos</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">unbindAccount</span><span class="p">(</span><span class="nv">$pos_identifier</span><span class="p">,</span> <span class="nv">$account_identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4</span>
+                    <span class="p">[</span><span class="nx">pos_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T13</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0100</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 1
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 1
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [account_id] =&gt; 4
-                    [pos_id] =&gt; 1
-                    [currency] =&gt; PLN
-                    [created_at] =&gt; 2016-12-09T13:24:15+0100
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"DELETE"</span> <span class="s2">"https://api.monetivo.com/v1/pos/1/accounts/4"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2621,21 +2822,25 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
          <span class="p">);</span>
  <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
 
+<span class="c1">//Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Rachunek</span> <span class="nx">testowy</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">03</span><span class="nx">T15</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mi">41</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [account_id] =&gt; 2
-    [currency] =&gt; PLN
-    [balance] =&gt; 0.00
-    [name] =&gt; Rachunek testowy
-    [created_at] =&gt; 2016-12-09T12:24:15+0000
-    [updated_at] =&gt; 2017-01-03T15:18:41+0000
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/accounts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"currency=EUR"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"name=Rachunek EUR"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2737,48 +2942,49 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+                    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">second</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">15</span><span class="nx">T15</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mo">00</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">15</span><span class="nx">T15</span><span class="o">:</span><span class="mi">15</span><span class="o">:</span><span class="mo">00</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
 
+            <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6337.54</span>
+                    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Default</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+                    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">03</span><span class="nx">T15</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mi">41</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 2
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 1
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 2
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [account_id] =&gt; 2
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 0.00
-                    [name] =&gt; second PLN
-                    [created_at] =&gt; 2016-12-15T15:15:00+0000
-                    [updated_at] =&gt; 2016-12-15T15:15:00+0000
-                )
-
-            [1] =&gt; Array
-                (
-                    [account_id] =&gt; 1
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6337.54
-                    [name] =&gt; Default PLN
-                    [created_at] =&gt; 2016-12-09T12:24:15+0000
-                    [updated_at] =&gt; 2017-01-03T15:18:41+0000
-                )
-
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/accounts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QxLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IjE3Mi4yMC4wLjEiLCJpc3MxOiJDUk9XRENPTU1VTklUWSIsIxV4cCI6MTQ5MTQ3ODxxMCwiZ2VuIjoxNDkxNDc4MDAwLCJ1c2VyX2lkIjoxfQ.QG8CU-4oZYueaDxnvWOGOYFa2DLD9mJ5zKMS7tcAeJ8"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2868,21 +3074,23 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
 <span class="nv">$account</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6337.54</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Default</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">09</span><span class="nx">T12</span><span class="o">:</span><span class="mi">24</span><span class="o">:</span><span class="mi">15</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">updated_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">03</span><span class="nx">T15</span><span class="o">:</span><span class="mi">18</span><span class="o">:</span><span class="mi">41</span><span class="o">+</span><span class="mo">0000</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [account_id] =&gt; 1
-    [currency] =&gt; PLN
-    [balance] =&gt; 6337.54
-    [name] =&gt; Default PLN
-    [created_at] =&gt; 2016-12-09T12:24:15+0000
-    [updated_at] =&gt; 2017-01-03T15:18:41+0000
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/accounts/1"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: exJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IxE3Mi4yMC4wLjEiLCJpc3MiOiJDUkxXRENPTU1VTklUWSIsImV4cCI6MTQ5MTQ4MDUwNixiZ2VuIjoxNDkxNDc5NjA2LCJ1c2VyX2lkIjoxfQ.wznV8luouhZXWOPLAyxXfsFrgo4N9mrq0Rz81hm48Pc"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -2978,141 +3186,142 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$report</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">accounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">report</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nx">\Monetivo\Api\Accounts</span><span class="o">::</span><span class="na">REPORT_TRANSACTIONS</span><span class="p">,</span> <span class="p">[</span><span class="s1">'date_from'</span> <span class="o">=&gt;</span> <span class="s1">'2016-12-01'</span><span class="p">]);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">10</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">5</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">https</span><span class="o">://</span><span class="nx">api</span><span class="o">.</span><span class="nx">monetivo</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">v1</span><span class="o">/</span><span class="nx">accounts</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="nx">report</span><span class="o">?</span><span class="nx">page</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">33.00</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6085.71</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">12</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Jan</span> <span class="nx">Kowalski</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">jk</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+                            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">7</span><span class="nx">a085d21</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">f5d8cef86636</span>
+                        <span class="p">)</span>
 
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">commission</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.36</span>
+                            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.10</span>
+                            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M8MXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T08</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mi">53</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mf">0.36</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6085.35</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">10</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M8MXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T08</span><span class="o">:</span><span class="mi">16</span><span class="o">:</span><span class="mi">53</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.00</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6086.35</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">12</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Anna</span> <span class="nx">Nowak</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">an</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+                            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="nx">b20c8b7</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="mi">21</span><span class="nx">fb52710f79</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">commission</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.01</span>
+                            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.10</span>
+                            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M0LXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T15</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mi">49</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mf">0.01</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6086.34</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">10</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M0LXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T15</span><span class="o">:</span><span class="mo">00</span><span class="o">:</span><span class="mi">49</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.00</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6087.34</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">12</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">J</span><span class="o">.</span> <span class="nx">Sobechuck</span>
+                            <span class="p">[</span><span class="nx">email</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">sopel2k</span><span class="o">@</span><span class="nx">example</span><span class="o">.</span><span class="nx">com</span>
+                            <span class="p">[</span><span class="nx">order_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">c900a485</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="nx">xxxx</span><span class="o">-</span><span class="mi">6112598</span><span class="nx">fa0d9</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                        <span class="p">(</span>
+                            <span class="p">[</span><span class="nx">commission</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.01</span>
+                            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.10</span>
+                            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+                        <span class="p">)</span>
+
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M0WXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T16</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">42</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+
+            <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+                <span class="p">(</span>
+                    <span class="p">[</span><span class="nx">object_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+                    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">-</span><span class="mf">0.01</span>
+                    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+                    <span class="p">[</span><span class="nx">balance</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">6087.33</span>
+                    <span class="p">[</span><span class="nx">operation_type</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">10</span>
+                    <span class="p">[</span><span class="nx">operation_data</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">offer</span><span class="p">]</span> <span class="o">=&gt;</span>
+                    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">M0WXXXX</span>
+                    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mo">01</span><span class="o">-</span><span class="mo">02</span><span class="nx">T16</span><span class="o">:</span><span class="mi">13</span><span class="o">:</span><span class="mi">42</span><span class="o">+</span><span class="mo">0000</span>
+                <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 10
-    [per_page] =&gt; 5
-    [current_page] =&gt; 1
-    [last_page] =&gt; 2
-    [next_page_url] =&gt; https://api.monetivo.com/v1/accounts/1/report?page=2
-    [prev_page_url] =&gt;
-    [from] =&gt; 1
-    [to] =&gt; 15
-    [data] =&gt; Array
-        (
-            [0] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; 33.00
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6085.71
-                    [operation_type] =&gt; 12
-                    [operation_data] =&gt; Array
-                        (
-                            [name] =&gt; Jan Kowalski
-                            [email] =&gt; jk@example.com
-                            [order_id] =&gt; 7a085d21-xxxx-xxxx-xxxx-f5d8cef86636
-                        )
-
-                    [offer] =&gt; Array
-                        (
-                            [commission] =&gt; 0.36
-                            [commission_rate] =&gt; 1.10
-                            [commission_const] =&gt; 0.00
-                        )
-
-                    [identifier] =&gt; M8MXXXX
-                    [created_at] =&gt; 2017-01-02T08:16:53+0000
-                )
-
-            [1] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; -0.36
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6085.35
-                    [operation_type] =&gt; 10
-                    [operation_data] =&gt;
-                    [offer] =&gt;
-                    [identifier] =&gt; M8MXXXX
-                    [created_at] =&gt; 2017-01-02T08:16:53+0000
-                )
-
-            [2] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; 1.00
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6086.35
-                    [operation_type] =&gt; 12
-                    [operation_data] =&gt; Array
-                        (
-                            [name] =&gt; Anna Nowak
-                            [email] =&gt; an@example.com
-                            [order_id] =&gt; 2b20c8b7-xxxx-xxxx-xxxx-21fb52710f79
-                        )
-
-                    [offer] =&gt; Array
-                        (
-                            [commission] =&gt; 0.01
-                            [commission_rate] =&gt; 1.10
-                            [commission_const] =&gt; 0.00
-                        )
-
-                    [identifier] =&gt; M0LXXXX
-                    [created_at] =&gt; 2017-01-02T15:00:49+0000
-                )
-
-            [3] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; -0.01
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6086.34
-                    [operation_type] =&gt; 10
-                    [operation_data] =&gt;
-                    [offer] =&gt;
-                    [identifier] =&gt; M0LXXXX
-                    [created_at] =&gt; 2017-01-02T15:00:49+0000
-                )
-
-            [4] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; 1.00
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6087.34
-                    [operation_type] =&gt; 12
-                    [operation_data] =&gt; Array
-                        (
-                            [name] =&gt; J. Sobechuck
-                            [email] =&gt; sopel2k@example.com
-                            [order_id] =&gt; c900a485-xxxx-xxxx-xxxx-6112598fa0d9
-                        )
-
-                    [offer] =&gt; Array
-                        (
-                            [commission] =&gt; 0.01
-                            [commission_rate] =&gt; 1.10
-                            [commission_const] =&gt; 0.00
-                        )
-
-                    [identifier] =&gt; M0WXXXX
-                    [created_at] =&gt; 2017-01-02T16:13:42+0000
-                )
-
-            [5] =&gt; Array
-                (
-                    [object_type] =&gt; 2
-                    [amount] =&gt; -0.01
-                    [currency] =&gt; PLN
-                    [balance] =&gt; 6087.33
-                    [operation_type] =&gt; 10
-                    [operation_data] =&gt;
-                    [offer] =&gt;
-                    [identifier] =&gt; M0WXXXX
-                    [created_at] =&gt; 2017-01-02T16:13:42+0000
-                )
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/accounts/3/report?type=2"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IjE3Mi4yMC4wLjEiLCJpc3MiOiJDUk9XRENPTU1VTklUWSIsImV4cCI6MTQ5MTQ4MDUwNiwiZ2VuIjoxNDkxNDc5NjA2LCJ1c2VyX2lkIjoxfQ.wznV8luouhZXWOPLAypXfsFrgo4N9mrq0Rz81hm48Pc"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <blockquote>
@@ -3264,28 +3473,28 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$accounts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+        <span class="p">)</span>
 
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 0
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 0
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt;
-    [to] =&gt;
-    [data] =&gt; Array
-        (
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/bank_accounts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3375,23 +3584,24 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
 <span class="nv">$account</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">bankAccounts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">merchant_account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">account_number</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">60102010260000042270201111</span>
+    <span class="p">[</span><span class="nx">name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+    <span class="p">[</span><span class="nx">address</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Botaniczna</span> <span class="mi">8</span>
+    <span class="p">[</span><span class="nx">description</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">rachunek</span> <span class="nx">podstawowy</span>
+    <span class="p">[</span><span class="nx">verified_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">created_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [merchant_account_id] =&gt; 1
-    [account_number] =&gt; 60102010260000042270201111
-    [name] =&gt; Monetivo
-    [address] =&gt; Botaniczna 8
-    [description] =&gt; rachunek podstawowy
-    [verified_at] =&gt;
-    [created_at] =&gt;
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/bank_accounts/1"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3453,38 +3663,43 @@ Do Twojego konta musi być przypisane konto bankowe. Konto to wymaga weryfikacji
 <aside class="notice">
 Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </aside>
+
+<aside class="notice">
+Zlecenie wypłaty możliwe jest jedynie w przypadku pozytywnej weryfikacji konta
+</aside>
 <pre class="highlight php"><code><span class="cp">&lt;?php</span>
 
 <span class="c1">// autentykacja...
 </span>
 <span class="c1">// tworzenie zlecenia wypłaty środków
 </span>
-<span class="nv">$account_id</span> <span class="o">=</span> <span class="s1">'M12345'</span><span class="p">;</span>
+<span class="nv">$account_id</span> <span class="o">=</span> <span class="s1">'1'</span><span class="p">;</span>
 <span class="nv">$payout</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$account_id</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">account_number</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">60102010260000042270201111</span>
+    <span class="p">[</span><span class="nx">account_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Default</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">account_address</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Botaniczna</span> <span class="mi">8</span><span class="p">,</span> <span class="nx">Poznan</span>
+    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1000.00</span>
+    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span> <span class="p">(</span>
 
+      <span class="p">)</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [identifier] =&gt; 1
-    [account_number] =&gt; 60102010260000042270201111
-    [account_name] =&gt; Default PLN
-    [account_address] =&gt; Botaniczna 8, Poznan
-    [amount] =&gt; 1000.00
-    [status] =&gt; 1
-    [status_history] =&gt; Array (
-
-      )
-    [account_id] =&gt; 1
-    [currency] =&gt; PLN
-    [committed_at] =&gt;
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/accounts/1/payouts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3618,28 +3833,28 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$payouts</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">();</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span><span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">total</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="nx">per_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+    <span class="p">[</span><span class="nx">current_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">last_page</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="nx">next_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">prev_page_url</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">from</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">to</span><span class="p">]</span> <span class="o">=&gt;</span>
+    <span class="p">[</span><span class="nx">data</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+        <span class="p">)</span>
 
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [total] =&gt; 0
-    [per_page] =&gt; 15
-    [current_page] =&gt; 1
-    [last_page] =&gt; 0
-    [next_page_url] =&gt;
-    [prev_page_url] =&gt;
-    [from] =&gt;
-    [to] =&gt;
-    [data] =&gt; Array
-        (
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/payouts"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3667,24 +3882,6 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <td>-</td>
 <td>tak</td>
 <td>token użytkownika</td>
-</tr>
-</tbody></table>
-
-<h3 id="parametry-url-dania">Parametry URL żądania</h3>
-
-<table><thead>
-<tr>
-<th>Parametr</th>
-<th>Domyślnie</th>
-<th>Wymagany</th>
-<th>Opis</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>ACCOUNT_ID</td>
-<td>-</td>
-<td>nie</td>
-<td>identyfikator rachunku w systemie Monetivo</td>
 </tr>
 </tbody></table>
 
@@ -3744,31 +3941,33 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <span class="c1">// autentykacja...
 </span>
 <span class="c1">// pobieranie szczegółów wypłaty o identyfikatorze M12345
-</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'M12345'</span><span class="p">;</span>
+</span><span class="nv">$identifier</span> <span class="o">=</span> <span class="s1">'P12345'</span><span class="p">;</span>
 <span class="nv">$payout</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">payouts</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nv">$identifier</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">identifier</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">12345</span>
+    <span class="p">[</span><span class="nx">account_number</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">60102010260000042270201111</span>
+    <span class="p">[</span><span class="nx">account_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Default</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">account_address</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Botaniczna</span> <span class="mi">8</span><span class="p">,</span> <span class="nx">Poznan</span>
+    <span class="p">[</span><span class="nx">amount</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1000.00</span>
+    <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+    <span class="p">[</span><span class="nx">status_history</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span> <span class="p">(</span>
+
+      <span class="p">)</span>
+    <span class="p">[</span><span class="nx">account_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+    <span class="p">[</span><span class="nx">currency</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PLN</span>
+    <span class="p">[</span><span class="nx">committed_at</span><span class="p">]</span> <span class="o">=&gt;</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [identifier] =&gt; 1
-    [account_number] =&gt; 60102010260000042270201111
-    [account_name] =&gt; Default PLN
-    [account_address] =&gt; Botaniczna 8, Poznan
-    [amount] =&gt; 1000.00
-    [status] =&gt; 2
-    [status_history] =&gt; Array (
-
-      )
-    [account_id] =&gt; 1
-    [currency] =&gt; PLN
-    [committed_at] =&gt;
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/payouts/P12345"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3900,23 +4099,24 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$addresses</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">);</span>
 
-
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">zip</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="o">-</span><span class="mi">586</span>
+    <span class="p">[</span><span class="nx">city</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Pozna</span><span class="err">ń</span>
+    <span class="p">[</span><span class="nx">block</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">8</span>
+    <span class="p">[</span><span class="nx">phone</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">+</span><span class="mi">48123456789</span>
+    <span class="p">[</span><span class="nx">street</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">ul</span><span class="o">.</span> <span class="nx">Botaniczna</span>
+    <span class="p">[</span><span class="nx">country</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">POL</span>
+    <span class="p">[</span><span class="nx">companyname</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [zip] =&gt; 60-586
-    [city] =&gt; Poznań
-    [block] =&gt; 8
-    [phone] =&gt; +48123456789
-    [street] =&gt; ul. Botaniczna
-    [country] =&gt; POL
-    [companyname] =&gt; Monetivo
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/addresses/correspondence"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -3978,23 +4178,25 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$address</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">addresses</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">update</span><span class="p">(</span><span class="nx">\Monetivo\Api\Addresses</span><span class="o">::</span><span class="na">TYPE_CORRESPONDENCE</span><span class="p">,</span> <span class="p">[</span><span class="s1">'city'</span> <span class="o">=&gt;</span> <span class="s1">'Poznań'</span><span class="p">]);</span>
 
-
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="nx">zip</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">60</span><span class="o">-</span><span class="mi">586</span>
+    <span class="p">[</span><span class="nx">city</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Pozna</span><span class="err">ń</span>
+    <span class="p">[</span><span class="nx">block</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">8</span>
+    <span class="p">[</span><span class="nx">phone</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">+</span><span class="mi">48123456789</span>
+    <span class="p">[</span><span class="nx">street</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">ul</span><span class="o">.</span> <span class="nx">Botaniczna</span>
+    <span class="p">[</span><span class="nx">country</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">POL</span>
+    <span class="p">[</span><span class="nx">companyname</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Monetivo</span>
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [zip] =&gt; 60-586
-    [city] =&gt; Poznań
-    [block] =&gt; 8
-    [phone] =&gt; +48123456789
-    [street] =&gt; ul. Botaniczna
-    [country] =&gt; POL
-    [companyname] =&gt; Monetivo
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl -X <span class="s2">"PUT"</span> <span class="s2">"https://api.monetivo.com/v1/addresses/correspondence"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"city=Poznan"</span> <span class="se">\</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -4087,7 +4289,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <td>country</td>
 <td>-</td>
 <td>tak</td>
-<td>Państwo</td>
+<td>Państwo (w formacie ISO 3166-1 alpha-2)</td>
 </tr>
 <tr>
 <td>companyname</td>
@@ -4130,248 +4332,249 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$offers</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">listing</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_PAYMENTS</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Blik</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
 
+    <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">mTransfer</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">a</span><span class="err">ć</span> <span class="nx">z</span> <span class="nx">ING</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Pekao24Przelew</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">5</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Przelew24</span> <span class="nx">BZWBK</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">6</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">Alior</span> <span class="nx">Bankiem</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">7</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">IPKO</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">8</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">Inteligo</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">8</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">9</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Millennium</span> <span class="nx">Bank</span> <span class="nx">PBL</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">10</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">CA</span> <span class="nx">przelew</span> <span class="nx">online</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">11</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">T</span><span class="o">-</span><span class="nx">Mobile</span> <span class="nx">Us</span><span class="err">ł</span><span class="nx">ugi</span> <span class="nx">Bankowe</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">12</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Deutsche</span> <span class="nx">Bank</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">12</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">13</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">BPH</span> <span class="nx">Przelew</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">14</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">BG</span><span class="err">Ż</span> <span class="nx">BNP</span> <span class="nx">Paribas</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">14</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">15</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Eurobank</span> <span class="o">-</span> <span class="nx">p</span><span class="err">ł</span><span class="nx">atno</span><span class="err">ść</span> <span class="nx">online</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">15</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">16</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">PBS</span> <span class="nx">PBL</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">16</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">17</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">r</span><span class="o">-</span><span class="nx">Przelew</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">17</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">18</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Toyota</span> <span class="nx">Bank</span> <span class="nx">Pay</span> <span class="nx">Way</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">18</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">19</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">BSWSCHOWA</span> <span class="nx">PBL</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">19</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">20</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">a</span><span class="err">ć</span> <span class="nx">z</span> <span class="nx">BO</span><span class="err">Ś</span> <span class="nx">Bank</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">20</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">21</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Getin</span> <span class="nx">Bank</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">21</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">22</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">Orange</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">22</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">23</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">Citi</span> <span class="nx">Handlowy</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">23</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">24</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">e</span><span class="o">-</span><span class="nx">transfer</span> <span class="nx">Pocztowy24</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">24</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">25</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">P</span><span class="err">ł</span><span class="nx">ac</span><span class="err">ę</span> <span class="nx">z</span> <span class="nx">PLUS</span> <span class="nx">BANK</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">25</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">26</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Noble</span> <span class="nx">Bank</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">26</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">27</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Inny</span> <span class="nx">bank</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">27</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">28</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Karty</span> <span class="nx">SixPay</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="mi">28</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">channel_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">29</span>
+            <span class="p">[</span><span class="nx">channel_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Sofort</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">1.90</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [0] =&gt; Array
-        (
-            [channel_id] =&gt; 1
-            [channel_name] =&gt; Blik
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [1] =&gt; Array
-        (
-            [channel_id] =&gt; 2
-            [channel_name] =&gt; mTransfer
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [2] =&gt; Array
-        (
-            [channel_id] =&gt; 3
-            [channel_name] =&gt; Płać z ING
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [3] =&gt; Array
-        (
-            [channel_id] =&gt; 4
-            [channel_name] =&gt; Pekao24Przelew
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [4] =&gt; Array
-        (
-            [channel_id] =&gt; 5
-            [channel_name] =&gt; Przelew24 BZWBK
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [5] =&gt; Array
-        (
-            [channel_id] =&gt; 6
-            [channel_name] =&gt; Płacę z Alior Bankiem
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [6] =&gt; Array
-        (
-            [channel_id] =&gt; 7
-            [channel_name] =&gt; Płacę z IPKO
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [7] =&gt; Array
-        (
-            [channel_id] =&gt; 8
-            [channel_name] =&gt; Płacę z Inteligo
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [8] =&gt; Array
-        (
-            [channel_id] =&gt; 9
-            [channel_name] =&gt; Millennium Bank PBL
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [9] =&gt; Array
-        (
-            [channel_id] =&gt; 10
-            [channel_name] =&gt; CA przelew online
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [10] =&gt; Array
-        (
-            [channel_id] =&gt; 11
-            [channel_name] =&gt; T-Mobile Usługi Bankowe
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [11] =&gt; Array
-        (
-            [channel_id] =&gt; 12
-            [channel_name] =&gt; Deutsche Bank
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [12] =&gt; Array
-        (
-            [channel_id] =&gt; 13
-            [channel_name] =&gt; BPH Przelew
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [13] =&gt; Array
-        (
-            [channel_id] =&gt; 14
-            [channel_name] =&gt; BGŻ BNP Paribas
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [14] =&gt; Array
-        (
-            [channel_id] =&gt; 15
-            [channel_name] =&gt; Eurobank - płatność online
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [15] =&gt; Array
-        (
-            [channel_id] =&gt; 16
-            [channel_name] =&gt; PBS PBL
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [16] =&gt; Array
-        (
-            [channel_id] =&gt; 17
-            [channel_name] =&gt; r-Przelew
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [17] =&gt; Array
-        (
-            [channel_id] =&gt; 18
-            [channel_name] =&gt; Toyota Bank Pay Way
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [18] =&gt; Array
-        (
-            [channel_id] =&gt; 19
-            [channel_name] =&gt; BSWSCHOWA PBL
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [19] =&gt; Array
-        (
-            [channel_id] =&gt; 20
-            [channel_name] =&gt; Płać z BOŚ Bank
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [20] =&gt; Array
-        (
-            [channel_id] =&gt; 21
-            [channel_name] =&gt; Getin Bank
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [21] =&gt; Array
-        (
-            [channel_id] =&gt; 22
-            [channel_name] =&gt; Płacę z Orange
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [22] =&gt; Array
-        (
-            [channel_id] =&gt; 23
-            [channel_name] =&gt; Płacę z Citi Handlowy
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [23] =&gt; Array
-        (
-            [channel_id] =&gt; 24
-            [channel_name] =&gt; e-transfer Pocztowy24
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [24] =&gt; Array
-        (
-            [channel_id] =&gt; 25
-            [channel_name] =&gt; Płacę z PLUS BANK
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [25] =&gt; Array
-        (
-            [channel_id] =&gt; 26
-            [channel_name] =&gt; Noble Bank
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [26] =&gt; Array
-        (
-            [channel_id] =&gt; 27
-            [channel_name] =&gt; Inny bank
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [27] =&gt; Array
-        (
-            [channel_id] =&gt; 28
-            [channel_name] =&gt; Karty SixPay
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [28] =&gt; Array
-        (
-            [channel_id] =&gt; 29
-            [channel_name] =&gt; Sofort
-            [commission_rate] =&gt; 1.90
-            [commission_const] =&gt; 0.00
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/offer/payments"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -4433,24 +4636,25 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 </span>
 <span class="nv">$offer</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">offer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">details</span><span class="p">(</span><span class="nx">\Monetivo\Api\Offer</span><span class="o">::</span><span class="na">TYPE_SERVICES</span><span class="p">,</span> <span class="mi">18</span><span class="p">);</span>
 
+<span class="c1">// Przykładowy zwrócony wynik:
+</span>
+<span class="nx">Array</span>
+<span class="p">(</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="nx">service_id</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">18</span>
+            <span class="p">[</span><span class="nx">service_name</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="nx">account_locked_operation</span>
+            <span class="p">[</span><span class="nx">commission_rate</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+            <span class="p">[</span><span class="nx">commission_const</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
 
+    <span class="p">[</span><span class="nx">httpCode</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">200</span>
+<span class="p">)</span>
 </code></pre>
-
-<blockquote>
-<p>Przykładowy zwrócony wynik:</p>
-</blockquote>
-<pre class="highlight php"><code>Array
-(
-    [0] =&gt; Array
-        (
-            [service_id] =&gt; 18
-            [service_name] =&gt; account_locked_operation
-            [commission_rate] =&gt; 0.00
-            [commission_const] =&gt; 0.00
-        )
-
-    [httpCode] =&gt; 200
-)
+<pre class="highlight shell"><code>curl <span class="s2">"https://api.monetivo.com/v1/offer/services/18"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
 </code></pre>
 
 <h3 id="danie-http">Żądanie HTTP</h3>
@@ -4477,7 +4681,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <td>ID</td>
 <td>-</td>
 <td>tak</td>
-<td>identyfikator oferty</td>
+<td>identyfikator oferty (service_id)</td>
 </tr>
 </tbody></table>
 
@@ -4522,7 +4726,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 <td>nazwa usługi</td>
 </tr>
 <tr>
-<td>commision_rate</td>
+<td>commission_rate</td>
 <td>stawka prowizji</td>
 </tr>
 <tr>
@@ -4535,6 +4739,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="php">php</a>
+                <a href="#" data-language-name="shell">shell</a>
           </div>
       </div>
     </div>

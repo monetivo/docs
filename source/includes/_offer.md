@@ -23,12 +23,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $offers = $api->offer()->listing(\Monetivo\Api\Offer::TYPE_PAYMENTS);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [0] => Array
@@ -267,6 +263,13 @@ Array
 )
 ```
 
+```shell
+curl "https://api.monetivo.com/v1/offer/payments" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+```
+
 ### Żądanie HTTP
 
 `GET https://api.monetivo.com/v1/offer/<TYPE>`
@@ -299,12 +302,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $offer = $api->offer()->details(\Monetivo\Api\Offer::TYPE_SERVICES, 18);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [0] => Array
@@ -319,6 +318,13 @@ Array
 )
 ```
 
+```shell
+curl "https://api.monetivo.com/v1/offer/services/18" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+```
+
 ### Żądanie HTTP
 
 `GET https://api.monetivo.com/v1/offer/<TYPE>/<ID>`
@@ -328,7 +334,7 @@ Array
 Parametr | Domyślnie | Wymagany | Opis |
 -------- | --------- | -------- | ---  |
 TYPE | - | tak | typ adresu, patrz tabela wyżej |
-ID | - | tak | identyfikator oferty |
+ID | - | tak | identyfikator oferty (service_id) |
 
 ### Nagłówki żądania
 
@@ -343,5 +349,5 @@ Klucz |  Opis |
 ----- | ----- |
 service_id | identyfikator usługi
 service_name | nazwa usługi
-commision_rate | stawka prowizji
+commission_rate | stawka prowizji
 commission_const | prowizja w postaci stałej opłaty

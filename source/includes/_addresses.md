@@ -23,12 +23,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $addresses = $api->addresses()->listing(\Monetivo\Api\Addresses::TYPE_CORRESPONDENCE);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [zip] => 60-586
@@ -40,6 +36,13 @@ Array
     [companyname] => Monetivo
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/addresses/correspondence" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -74,12 +77,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $address = $api->addresses()->update(\Monetivo\Api\Addresses::TYPE_CORRESPONDENCE, ['city' => 'Poznań']);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [zip] => 60-586
@@ -91,6 +90,14 @@ Array
     [companyname] => Monetivo
     [httpCode] => 200
 )
+```
+
+```shell
+curl -X "PUT" "https://api.monetivo.com/v1/addresses/correspondence" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+     --data-urlencode "city=Poznan" \
 ```
 
 ### Żądanie HTTP
@@ -119,5 +126,5 @@ city | - | tak | Miasto |
 block | - | tak | Nr mieszkania/lokalu
 phone | - | tak | Telefon
 street | - | tak | Ulica
-country | - | tak | Państwo
+country | - | tak | Państwo (w formacie ISO 3166-1 alpha-2)
 companyname | - | tak | Nazwa firmy

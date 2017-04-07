@@ -65,6 +65,7 @@ try {
     $api = new \Monetivo\MerchantApi($app_token);
 
     // autentykacja; jeśli wystąpi błąd to zostanie wyrzucony wyjątek MonetivoException
+    // zmienna `$token` zawiera token autoryzacyjny. Jego ważność to 15 minut.
     $token = $api->auth($login, $password);
 
     // następne zapytania do API
@@ -75,6 +76,12 @@ catch(Monetivo\Exceptions\MonetivoException $e) {
 }
 ```
 
-> Zmienna `$token` zawiera token autoryzacyjny. Jego ważność to 15 minut.
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/auth/login \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+     --data-urlencode "login=1GE" \
+     --data-urlencode "password=37855xb46d9x478fexxx"
+```
 
-> Pamiętaj, że autentykację wywołujesz jednokrotnie
+> Pamiętaj, że autentykację wywołujesz jednokrotnie, a przy kolejnych zapytaniach do API posługujesz się odebranym tokenem

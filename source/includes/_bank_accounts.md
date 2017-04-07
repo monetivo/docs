@@ -15,12 +15,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $accounts = $api->bankAccounts()->listing();
 
-
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
+// Przykładowy zwrócony wynik:
 Array
 (
     [total] => 0
@@ -37,6 +32,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/bank_accounts" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -79,11 +81,7 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 $identifier = '1';
 $account = $api->bankAccounts()->details($identifier);
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
+// Przykładowy zwrócony wynik:
 Array
 (
     [merchant_account_id] => 1
@@ -96,6 +94,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/bank_accounts/1" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP

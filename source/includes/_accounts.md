@@ -17,11 +17,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
          );
  $transaction = $api->accounts()->create($params);
 
-```
+//Przykładowy zwrócony wynik:
 
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [account_id] => 2
@@ -32,6 +29,15 @@ Array
     [updated_at] => 2017-01-03T15:18:41+0000
     [httpCode] => 200
 )
+```
+
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/accounts" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+     --data-urlencode "currency=EUR" \
+     --data-urlencode "name=Rachunek EUR"
 ```
 
 ### Żądanie HTTP
@@ -78,12 +84,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $accounts = $api->accounts()->listing();
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [total] => 2
@@ -120,6 +122,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/accounts" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QxLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IjE3Mi4yMC4wLjEiLCJpc3MxOiJDUk9XRENPTU1VTklUWSIsIxV4cCI6MTQ5MTQ3ODxxMCwiZ2VuIjoxNDkxNDc4MDAwLCJ1c2VyX2lkIjoxfQ.QG8CU-4oZYueaDxnvWOGOYFa2DLD9mJ5zKMS7tcAeJ8" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -162,11 +171,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 $identifier = '1';
 $account = $api->accounts()->details($identifier);
 
-```
+// Przykładowy zwrócony wynik:
 
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [account_id] => 1
@@ -177,6 +183,13 @@ Array
     [updated_at] => 2017-01-03T15:18:41+0000
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/accounts/1" \
+     -H "X-Auth-Token: exJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IxE3Mi4yMC4wLjEiLCJpc3MiOiJDUkxXRENPTU1VTklUWSIsImV4cCI6MTQ5MTQ4MDUwNixiZ2VuIjoxNDkxNDc5NjA2LCJ1c2VyX2lkIjoxfQ.wznV8luouhZXWOPLAyxXfsFrgo4N9mrq0Rz81hm48Pc" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 ### Żądanie HTTP
@@ -222,12 +235,8 @@ Minimalny poziom uprawnień: <code>użytkownik administracyjny</code>
 
 $report = $api->accounts()->report(1, \Monetivo\Api\Accounts::REPORT_TRANSACTIONS, ['date_from' => '2016-12-01']);
 
+// Przykładowy zwrócony wynik:
 
-```
-
-> Przykładowy zwrócony wynik:
-
-```php
 Array
 (
     [total] => 10
@@ -357,6 +366,13 @@ Array
 
     [httpCode] => 200
 )
+```
+
+```shell
+curl "https://api.monetivo.com/v1/accounts/3/report?type=2" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpcCI6IjE3Mi4yMC4wLjEiLCJpc3MiOiJDUk9XRENPTU1VTklUWSIsImV4cCI6MTQ5MTQ4MDUwNiwiZ2VuIjoxNDkxNDc5NjA2LCJ1c2VyX2lkIjoxfQ.wznV8luouhZXWOPLAypXfsFrgo4N9mrq0Rz81hm48Pc" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8"
 ```
 
 > Wyniki posortowane są po identyfikatorze operacji
