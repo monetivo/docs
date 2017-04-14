@@ -642,3 +642,85 @@ Wartość | Opis |
 1 | oczekiwanie na uzupełnienie danych bankowych
 2 | oczekiwanie na przesłanie danych do banku
 8 | dane bankowe przesłane do wypłaty
+
+## Płatność BLIK
+
+System Monetivo umożliwia szybkie dokonanie płatności BLIK przy użyciu API. Rozwiązanie to obejmuje 3 etapy:
+
+1. Rejestracja nowej transakcji (zob. [Tworzenie transakcji](https://docs.monetivo.com/#tworzenie-transakcji))
+2. Wprowadzenie kodu BLIK wygenerowanego przez aplikację mobilną banku Kupującego (poniżej),
+3. Obsłużenie powiadomienia o zmianie statusu transakcji wysłanego przez Monetivo (zob. [Obsługa powiadomień o statusie](https://docs.monetivo.com/#obs-uga-powiadomie-o-statusie))
+
+```php
+<?php
+
+// autentykacja...
+
+ $params = array(
+             'order_data' => [
+                 'description' => 'Christmas gifts',
+                 'order_id' => '12345'
+                 ],
+             'buyer' => [
+                 'name' => 'John Smith',
+                 'email' =>  'js@example.com'
+                 ],
+             'language' => 'pl',
+             'currency' => 'PLN',
+             'amount' => '150.00',
+             'return_url' => 'https://example.com/thanks'
+         );
+ // tworzenie nowej transakcji
+ $transaction = $api->transactions()->create($params);
+ // wprowadzenie kodu BLIK pozyskanego od Kupującego
+ $blikResult = $api->transactions()->executeBlik($transaction['identifier'], '123456')
+
+ // Przykładowy zwrócony wynik
+
+ Array
+ (
+     [status] => true
+ )
+
+```
+
+```shell
+curl -X "POST" "https://api.monetivo.com/v1/transactions/XXXXXXX/blik" \
+     -H "X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI" \
+     -H "X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf" \
+     -H "Content-Type: application/x-www-form-urlencoded; charset=utf-8" \
+     --data-urlencode "blikCode=123456" \
+```
+
+### Żądanie HTTP
+
+`POST https://api.monetivo.com/v1/transactions/<ID>/blik`
+
+### Parametry URL żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+ID | - | tak | identyfikator transakcji |
+
+### Nagłówki żądania
+
+Nagłówek | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | --- |
+X-API-Token | - | tak | token aplikacji
+X-Auth-Token | - | tak | token użytkownika
+
+### Parametry żądania
+
+Parametr | Domyślnie | Wymagany | Opis |
+-------- | --------- | -------- | ---  |
+blikCode | - | tak | Kod BLIK wygenerowany w aplikacji mobilnej Kupującego |
+
+### Odpowiedź
+
+Klucz | Opis |
+----- | ---- |
+status | status rejestracji transakcji w systemie BLIK: ```true``` albo ```false```
+
+<aside>
+Status <code>true</code> nie oznacza, że płatność została sfinalizowana - należy poprawnie obsłużyć powiadomienie o zmianie statusu transakcji wysłane przez Monetivo.
+</aside>

@@ -1484,6 +1484,135 @@ Akceptacja transakcji nie jest wymagana, jeśli włączono auto-akceptację (dom
 </tr>
 </tbody></table>
 
+<h2 id="p-atno-blik">Płatność BLIK</h2>
+
+<p>System Monetivo umożliwia szybkie dokonanie płatności BLIK przy użyciu API. Rozwiązanie to obejmuje 3 etapy:</p>
+
+<ol>
+<li>Rejestracja nowej transakcji (zob. <a href="https://docs.monetivo.com/#tworzenie-transakcji">Tworzenie transakcji</a>)</li>
+<li>Wprowadzenie kodu BLIK wygenerowanego przez aplikację mobilną banku Kupującego (poniżej),</li>
+<li>Obsłużenie powiadomienia o zmianie statusu transakcji wysłanego przez Monetivo (zob. <a href="https://docs.monetivo.com/#obs-uga-powiadomie-o-statusie">Obsługa powiadomień o statusie</a>)</li>
+</ol>
+<pre class="highlight php"><code><span class="cp">&lt;?php</span>
+
+<span class="c1">// autentykacja...
+</span>
+ <span class="nv">$params</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+             <span class="s1">'order_data'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                 <span class="s1">'description'</span> <span class="o">=&gt;</span> <span class="s1">'Christmas gifts'</span><span class="p">,</span>
+                 <span class="s1">'order_id'</span> <span class="o">=&gt;</span> <span class="s1">'12345'</span>
+                 <span class="p">],</span>
+             <span class="s1">'buyer'</span> <span class="o">=&gt;</span> <span class="p">[</span>
+                 <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'John Smith'</span><span class="p">,</span>
+                 <span class="s1">'email'</span> <span class="o">=&gt;</span>  <span class="s1">'js@example.com'</span>
+                 <span class="p">],</span>
+             <span class="s1">'language'</span> <span class="o">=&gt;</span> <span class="s1">'pl'</span><span class="p">,</span>
+             <span class="s1">'currency'</span> <span class="o">=&gt;</span> <span class="s1">'PLN'</span><span class="p">,</span>
+             <span class="s1">'amount'</span> <span class="o">=&gt;</span> <span class="s1">'150.00'</span><span class="p">,</span>
+             <span class="s1">'return_url'</span> <span class="o">=&gt;</span> <span class="s1">'https://example.com/thanks'</span>
+         <span class="p">);</span>
+ <span class="c1">// tworzenie nowej transakcji
+</span> <span class="nv">$transaction</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="nv">$params</span><span class="p">);</span>
+ <span class="c1">// wprowadzenie kodu BLIK pozyskanego od Kupującego
+</span> <span class="nv">$blikResult</span> <span class="o">=</span> <span class="nv">$api</span><span class="o">-&gt;</span><span class="na">transactions</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">executeBlik</span><span class="p">(</span><span class="nv">$transaction</span><span class="p">[</span><span class="s1">'identifier'</span><span class="p">],</span> <span class="s1">'123456'</span><span class="p">)</span>
+
+ <span class="c1">// Przykładowy zwrócony wynik
+</span>
+ <span class="nx">Array</span>
+ <span class="p">(</span>
+     <span class="p">[</span><span class="nx">status</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="kc">true</span>
+ <span class="p">)</span>
+
+</code></pre>
+<pre class="highlight shell"><code>curl -X <span class="s2">"POST"</span> <span class="s2">"https://api.monetivo.com/v1/transactions/XXXXXXX/blik"</span> <span class="se">\</span>
+     -H <span class="s2">"X-Auth-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Im5pY2UgdHJ5IDspIiwiaWF0IjoxNDkxNTQ5ODE0LCJleHAiOjE0OTE1NTM1NzUsImp0aSI6IjhiNmQwYmQyLWE0ZGEtNDVjYi05MTU5LWZmZTc2NmFjMmU5MyJ9.iQj7wi5eLkqX_mGhuTP89xpw2cjM-qx6T1gvDpUGljI"</span> <span class="se">\</span>
+     -H <span class="s2">"X-API-Token: prod_3cd89e58-xxxx-xxxx-xxxx-ee804b8a2ecf"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/x-www-form-urlencoded; charset=utf-8"</span> <span class="se">\</span>
+     --data-urlencode <span class="s2">"blikCode=123456"</span> <span class="se">\</span>
+</code></pre>
+
+<h3 id="danie-http">Żądanie HTTP</h3>
+
+<p><code class="prettyprint">POST https://api.monetivo.com/v1/transactions/&lt;ID&gt;/blik</code></p>
+
+<h3 id="parametry-url-dania">Parametry URL żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ID</td>
+<td>-</td>
+<td>tak</td>
+<td>identyfikator transakcji</td>
+</tr>
+</tbody></table>
+
+<h3 id="nag-wki-dania">Nagłówki żądania</h3>
+
+<table><thead>
+<tr>
+<th>Nagłówek</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>X-API-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token aplikacji</td>
+</tr>
+<tr>
+<td>X-Auth-Token</td>
+<td>-</td>
+<td>tak</td>
+<td>token użytkownika</td>
+</tr>
+</tbody></table>
+
+<h3 id="parametry-dania">Parametry żądania</h3>
+
+<table><thead>
+<tr>
+<th>Parametr</th>
+<th>Domyślnie</th>
+<th>Wymagany</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>blikCode</td>
+<td>-</td>
+<td>tak</td>
+<td>Kod BLIK wygenerowany w aplikacji mobilnej Kupującego</td>
+</tr>
+</tbody></table>
+
+<h3 id="odpowied">Odpowiedź</h3>
+
+<table><thead>
+<tr>
+<th>Klucz</th>
+<th>Opis</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>status rejestracji transakcji w systemie BLIK: <code class="prettyprint">true</code> albo <code class="prettyprint">false</code></td>
+</tr>
+</tbody></table>
+
+<aside>
+Status <code>true</code> nie oznacza, że płatność została sfinalizowana - należy poprawnie obsłużyć powiadomienie o zmianie statusu transakcji wysłane przez Monetivo.
+</aside>
+
           <h1 id="kana-y-p-atno-ci">Kanały płatności</h1>
 
 <h2 id="lista-dost-pnych-kana-w-p-atno-ci">Lista dostępnych kanałów płatności</h2>
