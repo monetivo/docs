@@ -111,6 +111,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
+            <li><a href='https://merchant.monetivo.com' target='_blank'>Panel Merchanta</a></li>
             <li><a href='https://github.com/monetivo' target='_blank'>GitHub</a></li>
             <li><a href='https://status.monetivo.com/' target='_blank'>Status page</a></li>
         </ul>
@@ -120,6 +121,8 @@
       <div class="content">
         
           <h1 id="wst-p">Wstęp</h1>
+
+<h2 id="informacje-og-lne">Informacje ogólne</h2>
 
 <p>Monetivo API umożliwia integrację własnego oprogramowania merchanta (np. sklepu) z systemem płatności Monetivo.
 Udostępniamy biblioteki, które pozwalają na m.in. wygenerowanie transakcji płatniczej oraz obsługa powiadomień o dokonaniu płatności.
@@ -140,9 +143,32 @@ Bilbioteka umożliwia również wykonanie innych operacji na koncie merchanta sy
 <li>produkcyjnego, dostępnego pod adresem <code class="prettyprint">https://api.monetivo.com</code>.</li>
 </ul>
 
-<p>Przy rejestracji konta w systemie Monetivo otrzymujesz dostęp do środowiska testowego w postaci tokenu aplikacji, loginu oraz hasła. Dane te są przypisane do specjalnego użytkownika, tzw. użytkownika integracji, który posiada zmniejszony poziom uprawnień. Logując się jako użytkownik integracji możesz wykonać podstawowe czynności, takie jak utworzenie transakcji czy zwrot transakcji. Część zapytań do naszego API może być wykonywana tylko przez użytkownika administracyjnego.</p>
+<h2 id="dost-p-do-api">Dostęp do API</h2>
 
-<p>Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne.</p>
+<p>Możesz uzyskać dostęp do Monetivo API po wykonaniu nastepujących kroków:</p>
+
+<ol>
+<li>Zarejestruj albo zaloguj się w <a href="https://merchant.monetivo.com">Panelu Merchanta</a>,</li>
+<li>Kliknij Dodaj sklep i podaj szczegółowe informacje o Twoim sklepie.</li>
+</ol>
+
+<p>Po utworzeniu sklepu w systemie Monetivo otrzymasz dostęp do środowiska testowego w postaci tokenu aplikacji, loginu oraz hasła. Dane te są przypisane do specjalnego użytkownika, tzw. użytkownika integracji, który posiada zmniejszony poziom uprawnień. Logując się jako użytkownik integracji możesz wykonać podstawowe czynności, takie jak utworzenie transakcji czy zwrot transakcji. Część zapytań do naszego API może być wykonywana tylko przez użytkownika administracyjnego.</p>
+
+<p>Jeśli Twoja integracja przebiegnie pomyślnie, po uprzednim uzupełnieniu niezbędnych danych będziesz mieć możliwość migracji na środowisko produkcyjne. Niektóre akcje, takie jak wypłata środków na Twój rachunek bankowy, możliwe są do wykonania jedynie w środowisku produkcyjnym.</p>
+
+<h2 id="elementy-systemu-monetivo">Elementy systemu Monetivo</h2>
+
+<p>Z punktu widzenia Merchanta, system Monetivo obejmuje kilka elementów:</p>
+
+<ol>
+<li>rachunek wewnętrzny na którym księgowane są środki w systemie Monetivo (Account),</li>
+<li>punkt sprzedaży (POS), odpowiadający np. sklepowi Merchanta,</li>
+<li>rachunek do wypłat (Bank account), wykorzystywany do wypłat środków z rachunku wewnętrznego na zewnętrzny rachunek bankowy Merchanta.</li>
+</ol>
+
+<p>Każdy z tych elementów jest w pełni konfigurowalny z poziomu naszego API.
+Dążąc do uproszczenia integracji, wprowadziliśmy koncepcję Sklepu. Sklep w systemie Monetivo stanowi połączenie rachunku oraz POS.
+Dodając sklep w Panelu Merchanta Monetivo, nasz system automatycznie skonfiguruje dla Ciebie POS oraz rachunek wewnętrzny. Korzystając z API nadal masz możliwość dodatkowej konfiguracji obu tych elementów z osobna.</p>
 
           <h1 id="biblioteki">Biblioteki</h1>
 
